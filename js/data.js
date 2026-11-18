@@ -179,6 +179,7 @@ window.DREAM_DATA = {
     { id:"mirror",    rarity:"N",  emoji:"🪞", name:"反思一分钟", text:"特别能和自己讲道理，并且可以很快哄好自己。" },
     { id:"talk",      rarity:"N",  emoji:"🗣", name:"话痨激活券", text:"使用条件：对本人说一句以上的话。使用后不可撤回。" },
     { id:"metro",     rarity:"N",  emoji:"🚇", name:"地铁时光通行证", text:"本站一切内容的官方用途证明。" },
+    { id:"variety",   rarity:"R",  emoji:"📺", name:"综艺马拉松证", text:"电视剧与综艺连看时长纪录保持者。奖品：自然醒一次，附赠被剧透风险。" },
     { id:"sleep4k",   rarity:"SR", emoji:"😴", name:"超好睡眠 · 4K 无删减", text:"「想尝试很多新鲜事物，但先让我睡完这一觉。」" },
     { id:"immersion", rarity:"SR", emoji:"🛋", name:"沉浸模式启动盘", text:"沉浸式干活特别特别久。启动需要心理建设，进度条玄学。" },
     { id:"sports",    rarity:"SR", emoji:"🏅", name:"运动会金牌（童年限定）", text:"代表班级出战，从未缺席领奖台。编号已遗失。" },
