@@ -183,6 +183,9 @@
     localStorage.removeItem(LS_COL); localStorage.removeItem(LS_PITY); localStorage.removeItem(LS_TOTAL);
     card3d.hidden = true; empty.hidden = false;
     $$(".ten-grid", cardSlot).forEach(n => n.remove());
+    // 今日签一并重置：收起签纸，恢复签筒提示
+    if (paper) paper.hidden = true;
+    if (slotHint) slotHint.hidden = false;
     renderAlbum();
     if (window.SFX) SFX.drop();
   });
