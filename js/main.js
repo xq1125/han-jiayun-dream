@@ -176,7 +176,7 @@
    ["📦 新品预告 · 图片位", "把图片丢进 assets/works/，在 js/data.js 加一条 works"]]
     .forEach(([t, s]) => {
       const slot = el("div", "product slot");
-      slot.innerHTML = `<div><b style="font-size:34px">＋</b><br>${t}<br><small style="opacity:.7">${s}</small></div>`;
+      slot.innerHTML = `<div class="slot-in"><span class="slot-plus">＋</span><span class="slot-t">${t}</span><span class="slot-s">${s}</span></div>`;
       slot.addEventListener("click", () => window.open("README-上传指南.md", "_blank"));
       shelf.appendChild(slot);
     });
