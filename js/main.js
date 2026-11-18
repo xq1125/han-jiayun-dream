@@ -326,10 +326,8 @@
     function winGame(who) {
       const isH = who === "hjy";
       $("#tileCard").innerHTML =
-        `<p class="tc-kind">GAME · 终局<span class="tc-view">${isH ? "⭐ 本人胜" : "🌙 朋友胜"}</span></p>
-         <h4>🥟🥟🥟 ${isH ? "本人" : "朋友"} 先集齐 ${GOAL} 颗汤包！</h4>
-         <p>${isH ? "韩某韵获胜——今晚的汤包归她，月亮甘愿认输，并附赠小星星一枚。" : "Z*Y获胜——她偷偷把小星星画在了每一颗汤包上，这局赢得明明白白。"}</p>
-         <button class="btn btn-main" id="btnRestart" type="button" style="margin-top:14px">再来一局</button>`;
+        `<div class="win-box"><img class="win-img" src="assets/img/${isH ? "win-check" : "win-x"}.png" alt="">
+         <button class="btn btn-main" id="btnRestart" type="button">再来一局</button></div>`;
       $("#btnRestart").addEventListener("click", restart);
       info();
     }
