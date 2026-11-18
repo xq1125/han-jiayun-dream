@@ -8,10 +8,12 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23F7E3B5'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23F08A3C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=3">
 <noscript><style>#dream-intro{display:none}.reveal,.stagger>*{opacity:1 !important;transform:none !important;filter:none !important}</style></noscript>
 </head>
 <body>
+<script>/* 看门狗：即使主脚本失效，12 秒后也强制放行页面内容 */
+setTimeout(function(){var i=document.getElementById('dream-intro');if(i&&i.parentNode)i.parentNode.removeChild(i);document.body.classList.add('entered');},12000);</script>
 
 <!-- ══════════ 全局氛围层 ══════════ -->
 <div id="sky" aria-hidden="true">
@@ -92,6 +94,11 @@
           <tr><th>待机表现</th><td>睡眠质量超级好，可连续待机至自然醒</td></tr>
           <tr><th>娱乐模块</th><td>唱歌 / 跳舞 / 电视剧 / 综艺 / 舞台</td></tr>
           <tr><th>饮食协议</th><td>坚定素食主义者 · 特别挑食 · 汤包除外嘻嘻</td></tr>
+          <tr><th>兴趣协议</th><td>没有固定喜欢的颜色或事物，以感觉为先，持续挖掘中</td></tr>
+          <tr><th>音频偏好</th><td>歌词与旋律优美的音乐 · R&B 直连</td></tr>
+          <tr><th>耐心参数</th><td>可在同一地点沉浸式干活特别特别久（启动需心理建设）</td></tr>
+          <tr><th>系统目标</th><td>把一项技能挖到突出，成为做事游刃有余的人</td></tr>
+          <tr><th>已知矛盾</th><td>有时候，大脑赶不上我的大脑</td></tr>
         </table>
       </div>
       <div class="spec-ingredient reveal">
@@ -120,6 +127,7 @@
       <p class="manual-body" id="manualDecl"><!-- JS: data.declaration --></p>
       <h4>用户须知 · 观看本人即默认同意</h4>
       <ol class="manual-list" id="manualList"><!-- JS: data.notices --></ol>
+      <div id="manualExtra"><!-- JS: data.manualExtra --></div>
       <div class="manual-warn">
         <span>⚠ 警告</span>
         <p id="manualWarn"><!-- JS: data.warning --></p>
@@ -257,8 +265,9 @@
   </div>
 </div>
 
-<script src="js/data.js"></script>
-<script src="js/main.js"></script>
-<script src="js/gacha.js"></script>
+<script src="js/sfx.js?v=3"></script>
+<script src="js/data.js?v=3"></script>
+<script src="js/main.js?v=3"></script>
+<script src="js/gacha.js?v=3"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 /* ═══════════ 梦境扭蛋机 + 今日签 ═══════════ */
 (function () {
   "use strict";
+  try {
   const D = window.DREAM_DATA;
   const $ = (s, p) => (p || document).querySelector(s);
   const $$ = (s, p) => Array.from((p || document).querySelectorAll(s));
@@ -65,6 +66,7 @@
   const card3d = $("#card3d"), inner = $("#card3dInner"), front = $("#cardFront");
 
   function showCard(card, fast) {
+    if (window.SFX) { SFX.flip(); if (card.rarity === "SSR") setTimeout(() => SFX.ssr(), 500); }
     $$(".ten-grid", stage).forEach(n => n.remove());
     empty.hidden = true; card3d.hidden = false;
     card3d.classList.remove("flipped");
@@ -76,6 +78,7 @@
   /* ── 扭蛋动画 ── */
   const machine = $("#machine"), mouth = $("#machineMouth");
   function dropCapsule(card) {
+    if (window.SFX) SFX.drop();
     const cap = document.createElement("i");
     const [a, b] = CAP_COLORS[Math.floor(Math.random() * CAP_COLORS.length)];
     cap.className = "dropping-cap";
@@ -93,6 +96,7 @@
     const results = [];
     for (let i = 0; i < times; i++) {
       machine.classList.add("shaking"); machine.classList.add("turn");
+      if (window.SFX) SFX.rattle();
       const card = pickCard();
       await new Promise(r => setTimeout(r, times === 1 ? 480 : 200));
       machine.classList.remove("shaking", "turn");
@@ -128,6 +132,7 @@
   $("#btnPull").addEventListener("click", () => pull(1));
   $("#btnPull10").addEventListener("click", () => pull(10));
   $("#btnClear").addEventListener("click", () => {
+    if (window.SFX) SFX.click();
     card3d.hidden = true; empty.hidden = false;
     $$(".ten-grid", stage).forEach(n => n.remove());
   });
@@ -160,6 +165,7 @@
   let shaking = false;
   box.addEventListener("click", () => {
     if (shaking) return; shaking = true;
+    if (window.SFX) SFX.rattle();
     box.classList.add("shaking");
     paper.hidden = true;
     setTimeout(() => {
@@ -172,7 +178,9 @@
       $("#fpText").textContent = f.text;
       paper.hidden = false;
       paper.style.animation = "none"; void paper.offsetWidth; paper.style.animation = "";
+      if (window.SFX) SFX.paper();
       shaking = false;
     }, 700);
   });
+  } catch (e) { console.error("gacha:", e); }
 })();

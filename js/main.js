@@ -137,6 +137,11 @@
   D.notices.forEach(n => mlist.appendChild(el("li", null, n)));
   $("#manualWarn").textContent = D.warning;
   $("#footDecl").textContent = D.declaration;
+  const mx = $("#manualExtra");
+  if (mx) (D.manualExtra || []).forEach(m => {
+    mx.appendChild(el("h4", null, m.h));
+    mx.appendChild(el("p", "manual-p", m.p));
+  });
 
   // 成分条动画（进入视口时）
   const barObs = new IntersectionObserver(es => es.forEach(e => {
@@ -177,7 +182,7 @@
     });
 
   /* ───────── ⑨ 梦境大富翁 ───────── */
-  (function boardGame() {
+  function boardGame() {
     const board = $("#board");
     if (!board || !D.board || D.board.length !== 20) { console.warn("board data missing"); return; }
     const N = 20, PER = 5;
@@ -202,7 +207,7 @@
       if (s === 2) { d.style.right = k * 20 + "%"; d.style.top = "0"; d.style.width = "20%"; d.style.height = "13%"; }
       if (s === 3) { d.style.left = "0"; d.style.top = k * 20 + "%"; d.style.width = "13%"; d.style.height = "20%"; }
       d.innerHTML = `<span class="t-ico">${t.ico}</span><span class="t-lab">${t.title}</span>${t.year ? `<span class="t-year">${t.year}</span>` : ""}`;
-      d.addEventListener("click", () => { if (!rolling) { movePieceTo(i); showTile(i); } });
+      d.addEventListener("click", () => { if (!rolling) { if (window.SFX) SFX.click(); movePieceTo(i); showTile(i); } });
       board.appendChild(d); tiles.push(d);
     });
 
@@ -239,10 +244,10 @@
       setTimeout(() => t.remove(), 2300);
     }
     async function stepTo(target) {
-      while (posI !== target) { posI = (posI + 1) % N; place(posI); await wait(300); }
+      while (posI !== target) { posI = (posI + 1) % N; place(posI); if (window.SFX) SFX.step(); await wait(300); }
     }
     async function stepBack(target) {
-      while (posI !== target) { posI = (posI + N - 1) % N; place(posI); await wait(300); }
+      while (posI !== target) { posI = (posI + N - 1) % N; place(posI); if (window.SFX) SFX.step(); await wait(300); }
     }
     async function resolve(i, chained) {
       const t = D.board[i];
@@ -259,6 +264,7 @@
 
     $("#btnRoll").addEventListener("click", async () => {
       if (rolling) return; rolling = true;
+      if (window.SFX) SFX.dice();
       const dEl = $("#die"), faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       dEl.classList.add("rolling");
       const spin = setInterval(() => dEl.textContent = faces[Math.floor(Math.random() * 6)], 80);
@@ -272,7 +278,8 @@
       save(); info();
       rolling = false;
     });
-  })();
+  }
+  try { boardGame(); } catch (e) { console.error("board:", e); }
 
   /* ───────── ⑩ 我的包 ───────── */
   const bagGrid = $("#bagGrid"); bagGrid.classList.add("stagger");
@@ -309,6 +316,7 @@
   const lb = $("#lightbox");
   let lbIndex = 0;
   function openLightbox(i) {
+    if (window.SFX) SFX.click();
     lbIndex = i;
     const w = D.works[i];
     $("#lbTitle").textContent = `NO.${w.no} · ${w.title}`;
@@ -383,6 +391,7 @@
     moon.title = "换台：梦境频道";
     let ch = 0;
     moon.addEventListener("click", () => {
+      if (window.SFX) SFX.click();
       ch = (ch + 1) % CHANNELS.length;
       setScene(CHANNELS[ch]);
       moon.animate([{ transform: "scale(1)" }, { transform: "scale(1.25)" }, { transform: "scale(1)" }], { duration: 700 });

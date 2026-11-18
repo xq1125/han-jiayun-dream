@@ -287,6 +287,11 @@ body.scene-night .hero-title,body.scene-latenight .hero-title{color:#F6F0FF}
 .manual-list li{margin-bottom:8px}
 .manual-warn{margin-top:30px;border:1.5px dashed var(--blood);border-radius:10px;padding:16px 20px;
   background:rgba(196,69,58,.06)}
+.manual-p{font-size:14px;line-height:2;color:#4a4058;margin-bottom:6px}
+#sfxBtn{position:fixed;right:18px;bottom:18px;z-index:70;width:46px;height:46px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.55);backdrop-filter:blur(10px);
+  font-size:20px;box-shadow:0 10px 30px rgba(80,60,120,.25);transition:transform .3s,background .3s}
+#sfxBtn:hover{transform:scale(1.12) rotate(-8deg);background:rgba(255,255,255,.8)}
 .manual-warn span{color:var(--blood);font-weight:700;letter-spacing:.2em;font-size:13px}
 .manual-warn p{font-size:14px;margin-top:6px}
 .manual-stamp{position:absolute;right:clamp(18px,4vw,44px);bottom:clamp(18px,4vw,40px);
