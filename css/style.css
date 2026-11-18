@@ -165,6 +165,15 @@ body.scene-latenight #clouds{opacity:.28}
   mask:radial-gradient(60% 100% at 50% 0%,#000,transparent 75%)}
 body.scene-night .fog,body.scene-latenight .fog{background:linear-gradient(180deg,rgba(90,80,60,.3),transparent)}
 
+/* ───────── 场景底图：每个区块是一间真实的地方 ───────── */
+.scene-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.scene-bg i{position:absolute;inset:-6%;background-size:cover;background-position:center;
+  filter:saturate(.85) contrast(1.02);opacity:.5;
+  mask:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%);
+  animation:sceneBreath 16s ease-in-out infinite}
+body.scene-night .scene-bg i,body.scene-latenight .scene-bg i{opacity:.36;filter:saturate(.8) brightness(.82)}
+@keyframes sceneBreath{50%{transform:scale(1.035)}}
+
 /* 入场动画（隐藏态仅在 JS 正常接管时生效；JS 失效则内容直接可见） */
 body.js-anim .reveal{opacity:0;transform:translateY(30px);filter:blur(7px);
   transition:opacity 1.3s ease,transform 1.3s ease,filter 1.3s ease}
@@ -196,7 +205,8 @@ body:not(.entered) .hero-title .ltr{animation-play-state:paused}
 #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
   justify-content:center;text-align:center;padding:120px 20px 90px;overflow:hidden}
 #hero .hero-photo{position:absolute;inset:0;background-size:cover;background-position:center;
-  opacity:.3;mask:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);z-index:-1}
+  opacity:.42;mask:linear-gradient(180deg,transparent,#000 26%,#000 68%,transparent);z-index:-1;
+  filter:saturate(.85) contrast(1.02)}
 .hero-moon{position:absolute;top:12%;right:14%;width:clamp(90px,12vw,160px);aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle at 38% 34%,#FFF9EC,#F7E3B5 60%,#EAC48F);
   box-shadow:0 0 60px 18px rgba(247,227,181,.5),0 0 140px 60px rgba(232,114,44,.22);
@@ -423,8 +433,16 @@ body.scene-night .hero-title,body.scene-latenight .hero-title{color:#F6F0FF}
 .die{font-size:58px;line-height:1;color:var(--fg)}
 .die.rolling{animation:dieRoll .65s ease}
 @keyframes dieRoll{25%{transform:rotate(90deg) scale(1.25)}55%{transform:rotate(210deg) scale(1.1)}80%{transform:rotate(330deg)}}
-.dice-info{font:400 12px var(--mono);letter-spacing:.14em;color:var(--fg-soft)}
-.tile-card{padding:20px 24px;min-height:170px}
+.dice-info{font-family:var(--serif);font-size:13px;letter-spacing:.08em;color:#4A3F2E;
+  background:#F6F1E2;padding:8px 18px;border-radius:2px;transform:rotate(-1.2deg);
+  box-shadow:0 6px 16px rgba(60,40,20,.28);position:relative}
+.dice-info::before{content:"";position:absolute;left:50%;top:-9px;transform:translateX(-50%) rotate(2deg);
+  width:40px;height:16px;background:rgba(232,114,44,.3);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.tile-card{padding:20px 24px;min-height:170px;background:rgba(250,246,236,.8);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.65);border-radius:12px;
+  box-shadow:0 18px 50px rgba(60,40,20,.3)}
+body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,38,30,.62)}
 .tile-card .tc-kind{font:400 10px var(--mono);letter-spacing:.32em;color:var(--orange)}
 .tile-card h4{font-family:var(--serif);font-size:19px;margin:7px 0 9px}
 .tile-card h4 small{font-size:11px;color:var(--fg-soft);font-family:var(--mono);margin-left:8px}
