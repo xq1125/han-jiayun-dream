@@ -320,7 +320,12 @@
         if (c >= GOAL) { gameOver = true; save(); setTimeout(() => winGame(who), 1100); }
       }
       else if (e.type === "talk") { say("🗣 已聊两小时，对方已读不回失败"); }
-      else if (e.type === "stall") { skipTurn = true; sleepBoth(2000); say("💡 突发奇想：原地发呆一轮…"); }
+      else if (e.type === "stall") {
+        skipTurn = true; sleepBoth(2000);
+        if (who === "hjy") tbaoH++; else tbaoZ++;
+        say("💡 突发奇想：原地发呆一轮…再送你一小汤包叭 🥟+1");
+        if ((who === "hjy" ? tbaoH : tbaoZ) >= GOAL) { gameOver = true; save(); setTimeout(() => winGame(who), 1600); }
+      }
     }
 
     function winGame(who) {
