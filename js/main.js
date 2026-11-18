@@ -373,14 +373,7 @@
     item.innerHTML = `<span class="b-ico">${b.ico}</span><h4>${b.name}</h4><p>${b.note}</p>`;
     bagGrid.appendChild(item);
   });
-  [["🎬", "塞进一段视频", "assets/videos/ + data.js"], ["🖼", "塞进一张图", "assets/works/ + data.js"],
-   ["🎵", "塞进一首歌单", "data.js 的 flavors 里"], ["✨", "塞进任何新鲜事物", "README 教你怎么塞"]]
-    .forEach(([ico, name, note]) => {
-      const slot = el("a", "bag-item slot");
-      slot.href = "README-上传指南.md"; slot.target = "_blank";
-      slot.innerHTML = `<b>${ico}</b><span>${name}</span><small>${note}</small>`;
-      bagGrid.appendChild(slot);
-    });
+  // （包内不再放虚线上传位卡片；上传方式见上方「上传指南」链接与 README）
 
   /* ───────── ⑪ 售后 ───────── */
   const cc = $("#contactCard"); cc.classList.add("glass");
