@@ -197,17 +197,30 @@
       <span class="bc-title">梦境大富翁</span><span class="bc-sub">HAN JIAYUN™ MONOPOLY · 员工人数 1</span>`;
     board.appendChild(cen);
 
-    // 格子
+    // 格子（4 角格 + 每边 4 格，角格 16% 见方，边格 17% 长条，互不重叠）
     const tiles = [];
+    function tilePos(i) {
+      const s = Math.floor(i / 5), k = i % 5;
+      if (k === 0) {
+        const p = { width: "16%", height: "16%" };
+        if (s === 0) { p.left = "0"; p.bottom = "0"; }
+        if (s === 1) { p.right = "0"; p.bottom = "0"; }
+        if (s === 2) { p.right = "0"; p.top = "0"; }
+        if (s === 3) { p.left = "0"; p.top = "0"; }
+        return p;
+      }
+      const off = 16 + (k - 1) * 17;
+      if (s === 0) return { left: off + "%", bottom: "0", width: "17%", height: "16%" };
+      if (s === 1) return { right: "0", bottom: off + "%", width: "16%", height: "17%" };
+      if (s === 2) return { right: off + "%", top: "0", width: "17%", height: "16%" };
+      return { left: "0", top: off + "%", width: "16%", height: "17%" };
+    }
     D.board.forEach((t, i) => {
-      const s = sideOf(i), k = i % PER;
-      const d = el("button", "tile k-" + t.kind);
+      const d = el("button", "tile k-" + t.kind + (i === 0 ? " k-go" : ""));
       d.type = "button";
-      if (s === 0) { d.style.left = k * 20 + "%"; d.style.bottom = "0"; d.style.width = "20%"; d.style.height = "13%"; }
-      if (s === 1) { d.style.right = "0"; d.style.bottom = k * 20 + "%"; d.style.width = "13%"; d.style.height = "20%"; }
-      if (s === 2) { d.style.right = k * 20 + "%"; d.style.top = "0"; d.style.width = "20%"; d.style.height = "13%"; }
-      if (s === 3) { d.style.left = "0"; d.style.top = k * 20 + "%"; d.style.width = "13%"; d.style.height = "20%"; }
-      d.innerHTML = `<span class="t-ico">${t.ico}</span><span class="t-lab">${t.title}</span>${t.year ? `<span class="t-year">${t.year}</span>` : ""}`;
+      const p = tilePos(i);
+      for (const key in p) d.style[key] = p[key];
+      d.innerHTML = `${i === 0 ? '<span class="t-go">GO</span>' : ""}<span class="t-ico">${t.ico}</span><span class="t-lab">${t.title}</span>${t.year ? `<span class="t-year">${t.year}</span>` : ""}`;
       d.addEventListener("click", () => { if (!rolling) { if (window.SFX) SFX.click(); movePieceTo(i); showTile(i); } });
       board.appendChild(d); tiles.push(d);
     });
@@ -216,11 +229,13 @@
     const piece = el("div", null, "🐶"); piece.id = "piece";
     board.appendChild(piece);
     const centerOf = i => {
-      const s = sideOf(i), k = i % PER;
-      if (s === 0) return { x: k * 20 + 10, y: 93.5 };
-      if (s === 1) return { x: 93.5, y: 100 - (k * 20 + 10) };
-      if (s === 2) return { x: 100 - (k * 20 + 10), y: 6.5 };
-      return { x: 6.5, y: k * 20 + 10 };
+      const s = Math.floor(i / 5), k = i % 5;
+      if (k === 0) return s === 0 ? { x: 8, y: 92 } : s === 1 ? { x: 92, y: 92 } : s === 2 ? { x: 92, y: 8 } : { x: 8, y: 8 };
+      const c = 16 + (k - 1) * 17 + 8.5;
+      if (s === 0) return { x: c, y: 92 };
+      if (s === 1) return { x: 92, y: 100 - c };
+      if (s === 2) return { x: 100 - c, y: 8 };
+      return { x: 8, y: c };
     };
     function place(i) { const c = centerOf(i); piece.style.left = (c.x - 4.5) + "%"; piece.style.top = (c.y - 4.5) + "%"; }
 

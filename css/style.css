@@ -352,6 +352,13 @@ body.scene-night .hero-title,body.scene-latenight .hero-title{color:#F6F0FF}
 .tile.k-chance{background:rgba(242,201,214,.62)}
 .tile.k-rest{background:rgba(175,196,230,.55)}
 .tile.k-secret{background:linear-gradient(140deg,#FFE9C9,#F7B7C7)}
+.tile.k-go{background:linear-gradient(150deg,#FFD9A8,#F08A3C);border-color:rgba(255,255,255,.75);
+  animation:goGlow 2.8s ease-in-out infinite}
+.tile.k-go .t-lab,.tile.k-go .t-year{color:#fff}
+.tile.k-go .t-year{opacity:.85}
+.t-go{position:absolute;top:3px;left:5px;font:400 8px/1 var(--mono);letter-spacing:.18em;
+  color:rgba(255,255,255,.95);text-shadow:0 1px 3px rgba(0,0,0,.3)}
+@keyframes goGlow{50%{box-shadow:0 0 0 3px rgba(240,138,60,.3),0 0 24px rgba(240,138,60,.5)}}
 .tile:hover{transform:scale(1.08);box-shadow:0 10px 26px rgba(120,90,160,.35);z-index:3}
 .tile.cur{outline:2.5px solid var(--orange);outline-offset:-2px;z-index:3}
 .tile .t-ico{font-size:clamp(13px,2.5vw,21px);line-height:1.25}
