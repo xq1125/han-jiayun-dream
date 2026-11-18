@@ -505,12 +505,13 @@ body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,3
 .machine-base{height:20px;border-radius:0 0 14px 14px;background:linear-gradient(#B8905E,#8A6A42);
   border:3px solid rgba(255,255,255,.4);border-top:none}
 .coin-hint{text-align:center;margin-top:10px;font-size:11.5px;letter-spacing:.22em;color:var(--fg-soft)}
-.reset-btn{position:absolute;right:-8px;bottom:44px;z-index:6;min-width:34px;height:34px;padding:0 8px;
-  border-radius:99px;border:2px solid rgba(255,255,255,.75);background:#7C8A6E;color:#fff;
-  font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 12px rgba(0,0,0,.32);transition:transform .35s,background .3s;cursor:pointer}
-.reset-btn:hover{transform:scale(1.15) rotate(-180deg)}
-.reset-btn.armed{background:#C4553A;font-size:11px;letter-spacing:.1em}
+.reset-btn{display:inline-flex;align-items:center;justify-content:center;vertical-align:-4px;
+  min-width:22px;height:22px;padding:0 5px;margin-left:8px;border-radius:99px;
+  border:1px solid rgba(128,110,80,.35);background:transparent;color:var(--fg-soft);
+  font-size:12px;line-height:1;cursor:pointer;opacity:.6;
+  transition:transform .45s,border-color .3s,color .3s,opacity .3s}
+.reset-btn:hover{opacity:1;border-color:var(--orange);color:var(--orange);transform:rotate(-180deg)}
+.reset-btn.armed{opacity:1;border-color:var(--blood);color:var(--blood);font-size:10px;letter-spacing:.08em}
 .dropping-cap{position:absolute;left:50%;top:30%;transform:translateX(-50%);width:34px;height:34px;
   border-radius:50%;z-index:5;animation:capDrop 1s cubic-bezier(.5,0,.8,1) forwards}
 @keyframes capDrop{to{top:78%;transform:translateX(-50%) scale(.8)}}
