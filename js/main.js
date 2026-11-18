@@ -240,19 +240,21 @@
       piece2.style.left = (c2.x - 4.5 + 2.6) + "%"; piece2.style.top = (c2.y - 6.5) + "%";
     }
 
-    // 状态：两颗棋子各有位置，轮流掷骰子（⭐ 本人 → 🌙 朋友 → ⭐ …）
-    let turns = 0, tbao = 0, rolling = false, skipTurn = false;
+    // 状态：汤包竞速——先集齐 GOAL 颗者获胜
+    let turns = 0, tbaoH = 0, tbaoZ = 0, rolling = false, skipTurn = false, gameOver = false;
     let posH = 0, posZ = 0, turn = "hjy";
+    const GOAL = 3;
     try {
       const sv = JSON.parse(localStorage.getItem("h jy mono") || "{}");
-      turns = sv.turns | 0; tbao = sv.tbao | 0;
+      turns = sv.turns | 0; tbaoH = sv.tbaoH | 0; tbaoZ = sv.tbaoZ | 0;
       posH = (sv.posH | 0) % N; posZ = (sv.posZ | 0) % N;
       if (sv.turn === "zky") turn = "zky";
+      gameOver = !!sv.over;
     } catch (e) {}
-    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, posH, posZ, turn })); }
+    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbaoH, tbaoZ, posH, posZ, turn, over: gameOver })); }
     let lastShown = null;
     const chips = { hjy: $("#chipH"), zky: $("#chipZ") };
-    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · ${turn === "zky" ? "🌙 朋友回合" : "⭐ 本人回合"}`; }
+    function info() { $("#diceInfo").textContent = `⭐ 🥟×${tbaoH} · 🌙 🥟×${tbaoZ} · 先得 ${GOAL} 获胜 · 轮到 ${turn === "zky" ? "🌙 朋友" : "⭐ 本人"}`; }
     function setTurn(t) {
       turn = t;
       if (chips.hjy) chips.hjy.classList.toggle("on", t === "hjy");
@@ -311,13 +313,35 @@
       const e = t.effect;
       if (e.type === "forward") { say("☕ " + t.title + "：前进 " + e.n + " 格"); await wait(900); await stepTo((i + e.n) % N); showTile(who === "hjy" ? posH : posZ, who); }
       else if (e.type === "back") { say("🎫 " + t.title + "：后退 " + e.n + " 格，无惩罚"); await wait(900); await stepBack((i + N - e.n) % N); showTile(who === "hjy" ? posH : posZ, who); }
-      else if (e.type === "tbao") { tbao++; say("🥟 汤包 +1！当前 ×" + tbao); }
+      else if (e.type === "tbao") {
+        if (who === "hjy") tbaoH++; else tbaoZ++;
+        const c = who === "hjy" ? tbaoH : tbaoZ;
+        say("🥟 " + (who === "hjy" ? "⭐ 本人" : "🌙 朋友") + " 汤包 +1！当前 ×" + c);
+        if (c >= GOAL) { gameOver = true; save(); setTimeout(() => winGame(who), 1100); }
+      }
       else if (e.type === "talk") { say("🗣 已聊两小时，对方已读不回失败"); }
       else if (e.type === "stall") { skipTurn = true; sleepBoth(2000); say("💡 突发奇想：原地发呆一轮…"); }
     }
 
+    function winGame(who) {
+      const isH = who === "hjy";
+      $("#tileCard").innerHTML =
+        `<p class="tc-kind">GAME · 终局<span class="tc-view">${isH ? "⭐ 本人胜" : "🌙 朋友胜"}</span></p>
+         <h4>🥟🥟🥟 ${isH ? "本人" : "朋友"} 先集齐 ${GOAL} 颗汤包！</h4>
+         <p>${isH ? "星星获胜——今晚的汤包归她，月亮甘愿认输，并附赠小星星一枚。" : "月亮获胜——她偷偷把小星星画在了每一颗汤包上，这局赢得明明白白。"}</p>
+         <button class="btn btn-main" id="btnRestart" type="button" style="margin-top:14px">再来一局</button>`;
+      $("#btnRestart").addEventListener("click", restart);
+      info();
+    }
+    function restart() {
+      tbaoH = 0; tbaoZ = 0; turns = 0; posH = 0; posZ = 0; gameOver = false; skipTurn = false;
+      setTurn("hjy"); placeAll(); save(); info();
+      $("#tileCard").innerHTML = `<p class="tc-hint">新的一局：⭐🌙 从 GO 出发<br>先集齐 ${GOAL} 颗 🥟 者获胜 →</p>`;
+      if (window.SFX) SFX.click();
+    }
+
     $("#btnRoll").addEventListener("click", async () => {
-      if (rolling) return; rolling = true;
+      if (rolling || gameOver) return; rolling = true;
       if (skipTurn) {
         skipTurn = false; rolling = false;
         toast("😶‍🌫️ 还在发呆，本回合骰子作废——再掷一次");
