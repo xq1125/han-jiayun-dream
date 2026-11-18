@@ -248,7 +248,7 @@
     function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, pos: posI })); }
     let view = localStorage.getItem("h jy view") === "1" ? "zky" : "hjy";
     let lastShown = null;
-    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · 视角 ${view === "zky" ? "🌙" : "⭐"}`; }
+    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · ${view === "zky" ? "🌙 朋友视角" : "⭐ 本人视角"}`; }
     function setView(v) {
       view = v; localStorage.setItem("h jy view", v === "zky" ? "1" : "0");
       const bh = $("#btnViewH"), bz = $("#btnViewZ");
@@ -268,7 +268,7 @@
       const t = D.board[i];
       const useZ = view === "zky" && t.zky;
       $("#tileCard").innerHTML =
-        `<p class="tc-kind">${KIND_LABEL[t.kind]}<span class="tc-view">${useZ ? "🌙 zky 视角" : "⭐ 韩佳韵 视角"}</span></p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${useZ ? t.zky.text : t.text}</p>`;
+        `<p class="tc-kind">${KIND_LABEL[t.kind]}<span class="tc-view">${useZ ? "🌙 朋友视角" : "⭐ 本人视角"}</span></p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${useZ ? t.zky.text : t.text}</p>`;
     }
     function toast(msg) {
       const t = el("div", "mono-toast", msg); board.appendChild(t);
