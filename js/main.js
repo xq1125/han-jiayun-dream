@@ -225,9 +225,10 @@
       board.appendChild(d); tiles.push(d);
     });
 
-    // 棋子
+    // 双棋子：⭐ 韩佳韵 · 🌙 zky（星月同行）
     const piece = el("div", null, "⭐"); piece.id = "piece";
-    board.appendChild(piece);
+    const piece2 = el("div", null, "🌙"); piece2.id = "piece2";
+    board.appendChild(piece); board.appendChild(piece2);
     const centerOf = i => {
       const s = Math.floor(i / 5), k = i % 5;
       if (k === 0) return s === 0 ? { x: 8, y: 92 } : s === 1 ? { x: 92, y: 92 } : s === 2 ? { x: 92, y: 8 } : { x: 8, y: 8 };
@@ -237,7 +238,11 @@
       if (s === 2) return { x: 100 - c, y: 8 };
       return { x: 8, y: c };
     };
-    function place(i) { const c = centerOf(i); piece.style.left = (c.x - 4.5) + "%"; piece.style.top = (c.y - 4.5) + "%"; }
+    function place(i) {
+      const c = centerOf(i);
+      piece.style.left = (c.x - 4.5 - 2.4) + "%"; piece.style.top = (c.y - 4.5 - 2.4) + "%";
+      piece2.style.left = (c.x - 4.5 + 2.4) + "%"; piece2.style.top = (c.y - 4.5 + 2.4) + "%";
+    }
 
     // 状态（存档：回合数/汤包/位置）
     let turns = 0, tbao = 0, posI = 0, rolling = false;
@@ -246,14 +251,29 @@
       turns = sv.turns | 0; tbao = sv.tbao | 0; posI = (sv.pos | 0) % N;
     } catch (e) {}
     function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, pos: posI })); }
-    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao}`; }
+    let view = localStorage.getItem("h jy view") === "1" ? "zky" : "hjy";
+    let lastShown = null;
+    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · 视角 ${view === "zky" ? "🌙" : "⭐"}`; }
+    function setView(v) {
+      view = v; localStorage.setItem("h jy view", v === "zky" ? "1" : "0");
+      const bh = $("#btnViewH"), bz = $("#btnViewZ");
+      if (bh) bh.classList.toggle("on", v === "hjy");
+      if (bz) bz.classList.toggle("on", v === "zky");
+      info(); if (lastShown !== null) showTile(lastShown);
+    }
     place(posI); info();
+    const bh = $("#btnViewH"), bz = $("#btnViewZ");
+    if (bh) bh.addEventListener("click", () => { if (window.SFX) SFX.click(); setView("hjy"); });
+    if (bz) bz.addEventListener("click", () => { if (window.SFX) SFX.click(); setView("zky"); });
+    setView(view);
 
     function showTile(i) {
+      lastShown = i;
       tiles.forEach((t, j) => t.classList.toggle("cur", j === i));
       const t = D.board[i];
+      const useZ = view === "zky" && t.zky;
       $("#tileCard").innerHTML =
-        `<p class="tc-kind">${KIND_LABEL[t.kind]}</p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${t.text}</p>`;
+        `<p class="tc-kind">${KIND_LABEL[t.kind]}<span class="tc-view">${useZ ? "🌙 zky 视角" : "⭐ 韩佳韵 视角"}</span></p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${useZ ? t.zky.text : t.text}</p>`;
     }
     function toast(msg) {
       const t = el("div", "mono-toast", msg); board.appendChild(t);
@@ -265,15 +285,19 @@
     async function stepBack(target) {
       while (posI !== target) { posI = (posI + N - 1) % N; place(posI); if (window.SFX) SFX.step(); await wait(300); }
     }
+    function sleepBoth(ms) {
+      piece.classList.add("sleep"); piece2.classList.add("sleep");
+      setTimeout(() => { piece.classList.remove("sleep"); piece2.classList.remove("sleep"); }, ms);
+    }
     async function resolve(i, chained) {
       const t = D.board[i];
-      if (!t.effect) { if (t.kind === "rest") { piece.classList.add("sleep"); toast("💤 " + t.title + "：睡一轮再说"); setTimeout(() => piece.classList.remove("sleep"), 2400); } return; }
+      if (!t.effect) { if (t.kind === "rest") { sleepBoth(2400); toast("💤 " + t.title + "：睡一轮再说"); } return; }
       const e = t.effect;
       if (e.type === "forward") { toast("☕ " + t.title + "：前进 " + e.n + " 格"); await wait(900); await stepTo((i + e.n) % N); showTile(posI); }
       else if (e.type === "back") { toast("🎫 " + t.title + "：后退 " + e.n + " 格，无惩罚"); await wait(900); await stepBack((i + N - e.n) % N); showTile(posI); }
       else if (e.type === "tbao") { tbao++; toast("🥟 汤包 +1！当前 ×" + tbao); }
       else if (e.type === "talk") { toast("🗣 已聊两小时，对方已读不回失败"); }
-      else if (e.type === "stall") { piece.classList.add("sleep"); toast("💡 突发奇想：原地思考人生中…"); setTimeout(() => piece.classList.remove("sleep"), 2000); }
+      else if (e.type === "stall") { sleepBoth(2000); toast("💡 突发奇想：原地思考人生中…"); }
       if (!chained) info();
     }
     function movePieceTo(i) { posI = i; place(i); save(); }
