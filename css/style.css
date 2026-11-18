@@ -165,13 +165,13 @@ body.scene-latenight #clouds{opacity:.28}
   mask:radial-gradient(60% 100% at 50% 0%,#000,transparent 75%)}
 body.scene-night .fog,body.scene-latenight .fog{background:linear-gradient(180deg,rgba(120,100,180,.25),transparent)}
 
-/* 入场动画 */
-.reveal{opacity:0;transform:translateY(30px);filter:blur(7px);
+/* 入场动画（隐藏态仅在 JS 正常接管时生效；JS 失效则内容直接可见） */
+body.js-anim .reveal{opacity:0;transform:translateY(30px);filter:blur(7px);
   transition:opacity 1.3s ease,transform 1.3s ease,filter 1.3s ease}
-.reveal.in{opacity:1;transform:none;filter:none}
-/* 载入序列结束前，冻结所有入场（视觉逐渐引入） */
-body:not(.entered) .reveal{opacity:0 !important;transform:translateY(30px) !important;filter:blur(7px) !important}
-body:not(.entered) .stagger>*{opacity:0 !important;transform:translateY(26px) !important;filter:blur(6px) !important}
+body.js-anim .reveal.in{opacity:1;transform:none;filter:none}
+body.js-anim .stagger>*{opacity:0;transform:translateY(26px);filter:blur(6px);
+  transition:opacity 1s ease,transform 1s ease,filter 1s ease}
+body.js-anim .stagger.in>*{opacity:1;transform:none;filter:none}
 body:not(.entered) .hero-title .ltr{animation-play-state:paused}
 #hero .kicker{transition-delay:.15s}
 #hero .hero-sub{transition-delay:.9s}
@@ -179,9 +179,6 @@ body:not(.entered) .hero-title .ltr{animation-play-state:paused}
 #hero .hero-cta{transition-delay:1.7s}
 #hero .ticker{transition-delay:2.1s}
 #hero .scroll-hint{transition-delay:2.4s}
-.stagger>*{opacity:0;transform:translateY(26px);filter:blur(6px);
-  transition:opacity 1s ease,transform 1s ease,filter 1s ease}
-.stagger.in>*{opacity:1;transform:none;filter:none}
 .stagger.in>*:nth-child(2){transition-delay:.12s}
 .stagger.in>*:nth-child(3){transition-delay:.24s}
 .stagger.in>*:nth-child(4){transition-delay:.36s}

@@ -5,6 +5,7 @@
   const $ = (s, p) => (p || document).querySelector(s);
   const $$ = (s, p) => Array.from((p || document).querySelectorAll(s));
   const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!REDUCED) document.body.classList.add("js-anim"); // 隐藏态只由 JS 接管，JS 失效内容直接可见
 
   /* ───────── ① 载入梦境序列 ───────── */
   const intro = $("#dream-intro");
@@ -401,4 +402,5 @@
   watchReveal();
   // 动态插入的元素补观察
   setTimeout(watchReveal, 100);
+  window.__dreamOK = true; // 向看门狗报到
 })();

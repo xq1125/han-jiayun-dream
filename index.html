@@ -8,12 +8,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23F7E3B5'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23F08A3C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=4">
+<link rel="stylesheet" href="css/style.css?v=5">
 <noscript><style>#dream-intro{display:none}.reveal,.stagger>*{opacity:1 !important;transform:none !important;filter:none !important}</style></noscript>
 </head>
 <body>
-<script>/* 看门狗：即使主脚本失效，12 秒后也强制放行页面内容 */
-setTimeout(function(){var i=document.getElementById('dream-intro');if(i&&i.parentNode)i.parentNode.removeChild(i);document.body.classList.add('entered');},12000);</script>
+<script>/* 看门狗：6 秒放行视口内内容；12 秒若主脚本未报到则全量放行 */
+setTimeout(function(){var i=document.getElementById('dream-intro');if(i&&i.parentNode)i.parentNode.removeChild(i);document.body.classList.add('entered');
+var rs=document.querySelectorAll('.reveal:not(.in),.stagger:not(.in)');for(var k=0;k<rs.length;k++){var r=rs[k].getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)rs[k].classList.add('in');}},6000);
+setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAll('.reveal:not(.in),.stagger:not(.in)');for(var k=0;k<rs.length;k++)rs[k].classList.add('in');},12000);</script>
 
 <!-- ══════════ 全局氛围层 ══════════ -->
 <div id="sky" aria-hidden="true">
@@ -265,9 +267,9 @@ setTimeout(function(){var i=document.getElementById('dream-intro');if(i&&i.paren
   </div>
 </div>
 
-<script src="js/sfx.js?v=4"></script>
-<script src="js/data.js?v=4"></script>
-<script src="js/main.js?v=4"></script>
-<script src="js/gacha.js?v=4"></script>
+<script src="js/sfx.js?v=5"></script>
+<script src="js/data.js?v=5"></script>
+<script src="js/main.js?v=5"></script>
+<script src="js/gacha.js?v=5"></script>
 </body>
 </html>
