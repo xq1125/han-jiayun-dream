@@ -91,6 +91,10 @@ link:{ url:"https://你的网址", label:"打开这个网页 →" },
 - 机会格效果 `effect.type` 可选：`forward`（前进 n 格）、`back`（后退 n 格）、`tbao`（汤包+1）、`talk`、`stall`；
 - ⚠ 格子总数必须保持 **20**（棋盘按 20 格布局，多了少了都会错位）。
 
+## 👀 改页脚访客数
+
+`data.js` 里的 `visitors: { total:"1113", sleeping:"0502" }` —— 两个字符串直接改成想要的数字即可。
+
 ## 🎒 往"我的包"里塞东西
 
 在 `data.js` 的 `bag: [...]` 里加：

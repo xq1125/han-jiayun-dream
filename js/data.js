@@ -169,6 +169,9 @@ window.DREAM_DATA = {
     { level:"小吉", title:"舞台签", text:"一段旋律会在今天击中你。R&B 判定生效，请允许自己跟着晃两下。" }
   ],
 
+  /* ── 页脚访客计数（固定数字，想改就改这里） ── */
+  visitors: { total: "1113", sleeping: "0502" },
+
   /* ── 售后 ── */
   contact: {
     email: "1860711135@163.com",

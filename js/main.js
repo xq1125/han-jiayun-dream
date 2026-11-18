@@ -322,11 +322,10 @@
     <div><b>📍 坐标</b><br>${D.contact.city}</div>
     <div class="cc-full"><b>🔢 ${D.contact.phone}</b><br>${D.contact.note}</div>`;
 
-  /* ───────── ⑫ 访客计数器（玄学） ───────── */
-  const seed = (Date.now() / 86400000) | 0;
-  const rnd = n => { let x = Math.sin(seed + n) * 10000; return Math.floor((x - Math.floor(x)) * 900) + 100; };
-  $("#visitorNum").textContent = String(rnd(1)).padStart(4, "0");
-  $("#visitorSleep").textContent = String(rnd(2)).padStart(4, "0");
+  /* ───────── ⑫ 访客计数器（固定数字，见 data.visitors） ───────── */
+  const vs = D.visitors || { total: "1113", sleeping: "0502" };
+  $("#visitorNum").textContent = vs.total;
+  $("#visitorSleep").textContent = vs.sleeping;
 
   /* ───────── ⑬ 灯箱 ───────── */
   const lb = $("#lightbox");
