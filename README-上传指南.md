@@ -83,6 +83,14 @@ link:{ url:"https://你的网址", label:"打开这个网页 →" },
 { level:"大吉", title:"签名", text:"签文内容。" },
 ```
 
+## 🎲 修改大富翁棋盘（品牌大事记）
+
+`data.js` 里的 `board: [...]` 是 20 个格子，按**顺时针**排列（第 1 格 = 左下角 GO 出厂格）：
+
+- 加一个里程碑：把某个 `kind:"chance"` 机会格改成 `kind:"event"`，填上 `year / title / text / ico`；
+- 机会格效果 `effect.type` 可选：`forward`（前进 n 格）、`back`（后退 n 格）、`tbao`（汤包+1）、`talk`、`stall`；
+- ⚠ 格子总数必须保持 **20**（棋盘按 20 格布局，多了少了都会错位）。
+
 ## 🎒 往"我的包"里塞东西
 
 在 `data.js` 的 `bag: [...]` 里加：

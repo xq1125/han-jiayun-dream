@@ -139,13 +139,26 @@
   </div>
 </section>
 
-<!-- ══════════ ⑤ 品牌大事记 ══════════ -->
+<!-- ══════════ ⑤ 梦境大富翁 ══════════ -->
 <section id="story" class="scene" data-scene="dusk">
   <div class="fog" aria-hidden="true"></div>
   <div class="wrap">
-    <h2 class="sec-title reveal">品牌大事记<span class="en">GROWTH PATH OF A TYCOON</span></h2>
-    <p class="sec-note reveal">一家单人公司的扩张史。截至本版页面，本公司员工人数：1。好评率：95%+（来自三年班委意见调查，无差评）。</p>
-    <div class="timeline" id="timeline"><!-- JS: data.timeline --></div>
+    <h2 class="sec-title reveal">梦境大富翁<span class="en">GROWTH PATH OF A TYCOON</span></h2>
+    <p class="sec-note reveal">一家单人公司的扩张史，做成了一盘棋。掷骰子出发，路过每一个真实的里程碑 —— 也可能掉进汤包奖励格。截至本版，本公司员工人数：1（兼任棋子）。</p>
+    <div class="board-wrap">
+      <div id="board" class="reveal" aria-label="梦境大富翁棋盘"></div>
+      <aside class="story-panel">
+        <div class="dice-zone glass reveal">
+          <div class="die" id="die" aria-hidden="true">⚀</div>
+          <button class="btn btn-main" id="btnRoll" type="button">掷骰子出发</button>
+          <p class="dice-info" id="diceInfo">回合 0 · 汤包 ×0</p>
+        </div>
+        <div class="tile-card glass reveal" id="tileCard">
+          <p class="tc-hint">点击棋盘上的任意格子查看，<br>或掷骰子让「她」自己走 →</p>
+        </div>
+        <p class="board-legend reveal">🏭 出厂格 · 📅 里程碑格 · ☕ 机会格 · 🛋 休息格 · 🌊 隐藏格<br>终点即起点，绕回 GO 继续营业</p>
+      </aside>
+    </div>
   </div>
 </section>
 

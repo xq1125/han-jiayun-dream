@@ -176,13 +176,103 @@
       shelf.appendChild(slot);
     });
 
-  /* ───────── ⑨ 大事记 ───────── */
-  const tl = $("#timeline"); tl.classList.add("stagger");
-  D.timeline.forEach(t => {
-    const item = el("div", "tl-item glass");
-    item.innerHTML = `<span class="tl-year">${t.year}</span><h4>${t.title}</h4><p>${t.text}</p><span class="tl-tag">${t.tag}</span>`;
-    tl.appendChild(item);
-  });
+  /* ───────── ⑨ 梦境大富翁 ───────── */
+  (function boardGame() {
+    const board = $("#board");
+    if (!board || !D.board || D.board.length !== 20) { console.warn("board data missing"); return; }
+    const N = 20, PER = 5;
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const sideOf = i => Math.floor(i / PER);
+    const KIND_LABEL = { event: "MILESTONE · 里程碑", chance: "CHANCE · 机会", rest: "REST · 休息", secret: "SECRET · 隐藏" };
+
+    // 棋盘中心装饰
+    const cen = el("div", "board-center");
+    cen.innerHTML = `<svg class="bc-eye" viewBox="0 0 200 120"><path d="M10 60 Q100 -10 190 60 Q100 130 10 60 Z" fill="none" stroke="rgba(43,36,64,.55)" stroke-width="4"/><circle cx="100" cy="58" r="24" fill="#F08A3C"/><circle cx="100" cy="58" r="10" fill="#2B2440"/><circle cx="107" cy="51" r="4" fill="#fff" opacity=".9"/></svg>
+      <span class="bc-title">梦境大富翁</span><span class="bc-sub">HAN JIAYUN™ MONOPOLY · 员工人数 1</span>`;
+    board.appendChild(cen);
+
+    // 格子
+    const tiles = [];
+    D.board.forEach((t, i) => {
+      const s = sideOf(i), k = i % PER;
+      const d = el("button", "tile k-" + t.kind);
+      d.type = "button";
+      if (s === 0) { d.style.left = k * 20 + "%"; d.style.bottom = "0"; d.style.width = "20%"; d.style.height = "13%"; }
+      if (s === 1) { d.style.right = "0"; d.style.bottom = k * 20 + "%"; d.style.width = "13%"; d.style.height = "20%"; }
+      if (s === 2) { d.style.right = k * 20 + "%"; d.style.top = "0"; d.style.width = "20%"; d.style.height = "13%"; }
+      if (s === 3) { d.style.left = "0"; d.style.top = k * 20 + "%"; d.style.width = "13%"; d.style.height = "20%"; }
+      d.innerHTML = `<span class="t-ico">${t.ico}</span><span class="t-lab">${t.title}</span>${t.year ? `<span class="t-year">${t.year}</span>` : ""}`;
+      d.addEventListener("click", () => { if (!rolling) { movePieceTo(i); showTile(i); } });
+      board.appendChild(d); tiles.push(d);
+    });
+
+    // 棋子
+    const piece = el("div", null, "🐶"); piece.id = "piece";
+    board.appendChild(piece);
+    const centerOf = i => {
+      const s = sideOf(i), k = i % PER;
+      if (s === 0) return { x: k * 20 + 10, y: 93.5 };
+      if (s === 1) return { x: 93.5, y: 100 - (k * 20 + 10) };
+      if (s === 2) return { x: 100 - (k * 20 + 10), y: 6.5 };
+      return { x: 6.5, y: k * 20 + 10 };
+    };
+    function place(i) { const c = centerOf(i); piece.style.left = (c.x - 4.5) + "%"; piece.style.top = (c.y - 4.5) + "%"; }
+
+    // 状态（存档：回合数/汤包/位置）
+    let turns = 0, tbao = 0, posI = 0, rolling = false;
+    try {
+      const sv = JSON.parse(localStorage.getItem("h jy mono") || "{}");
+      turns = sv.turns | 0; tbao = sv.tbao | 0; posI = (sv.pos | 0) % N;
+    } catch (e) {}
+    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, pos: posI })); }
+    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao}`; }
+    place(posI); info();
+
+    function showTile(i) {
+      tiles.forEach((t, j) => t.classList.toggle("cur", j === i));
+      const t = D.board[i];
+      $("#tileCard").innerHTML =
+        `<p class="tc-kind">${KIND_LABEL[t.kind]}</p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${t.text}</p>`;
+    }
+    function toast(msg) {
+      const t = el("div", "mono-toast", msg); board.appendChild(t);
+      setTimeout(() => t.remove(), 2300);
+    }
+    async function stepTo(target) {
+      while (posI !== target) { posI = (posI + 1) % N; place(posI); await wait(300); }
+    }
+    async function stepBack(target) {
+      while (posI !== target) { posI = (posI + N - 1) % N; place(posI); await wait(300); }
+    }
+    async function resolve(i, chained) {
+      const t = D.board[i];
+      if (!t.effect) { if (t.kind === "rest") { piece.classList.add("sleep"); toast("💤 " + t.title + "：睡一轮再说"); setTimeout(() => piece.classList.remove("sleep"), 2400); } return; }
+      const e = t.effect;
+      if (e.type === "forward") { toast("☕ " + t.title + "：前进 " + e.n + " 格"); await wait(900); await stepTo((i + e.n) % N); showTile(posI); }
+      else if (e.type === "back") { toast("🎫 " + t.title + "：后退 " + e.n + " 格，无惩罚"); await wait(900); await stepBack((i + N - e.n) % N); showTile(posI); }
+      else if (e.type === "tbao") { tbao++; toast("🥟 汤包 +1！当前 ×" + tbao); }
+      else if (e.type === "talk") { toast("🗣 已聊两小时，对方已读不回失败"); }
+      else if (e.type === "stall") { piece.classList.add("sleep"); toast("💡 突发奇想：原地思考人生中…"); setTimeout(() => piece.classList.remove("sleep"), 2000); }
+      if (!chained) info();
+    }
+    function movePieceTo(i) { posI = i; place(i); save(); }
+
+    $("#btnRoll").addEventListener("click", async () => {
+      if (rolling) return; rolling = true;
+      const dEl = $("#die"), faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+      dEl.classList.add("rolling");
+      const spin = setInterval(() => dEl.textContent = faces[Math.floor(Math.random() * 6)], 80);
+      const n = 1 + Math.floor(Math.random() * 6);
+      await wait(650); clearInterval(spin);
+      dEl.textContent = faces[n - 1]; dEl.classList.remove("rolling");
+      turns++;
+      await stepTo((posI + n) % N);
+      showTile(posI);
+      await resolve(posI, false);
+      save(); info();
+      rolling = false;
+    });
+  })();
 
   /* ───────── ⑩ 我的包 ───────── */
   const bagGrid = $("#bagGrid"); bagGrid.classList.add("stagger");

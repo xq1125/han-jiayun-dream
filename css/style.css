@@ -326,18 +326,59 @@ body.scene-night .hero-title,body.scene-latenight .hero-title{color:#F6F0FF}
   color:var(--fg-soft);font-size:14px;line-height:2;transition:.4s}
 .product.slot:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-6px)}
 
-/* ───────── ⑤ 大事记 ───────── */
-.timeline{position:relative;padding-left:34px}
-.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;
-  background:linear-gradient(var(--pink),var(--lav),var(--orange));border-radius:2px}
-.tl-item{position:relative;margin-bottom:34px;padding:22px 26px}
-.tl-item::before{content:"";position:absolute;left:-32px;top:30px;width:16px;height:16px;border-radius:50%;
-  background:var(--cream);border:3px solid var(--orange);box-shadow:0 0 0 5px rgba(240,138,60,.18)}
-.tl-item .tl-year{font:400 12px var(--mono);letter-spacing:.3em;color:var(--orange)}
-.tl-item h4{font-family:var(--serif);font-size:19px;margin:6px 0 8px}
-.tl-item p{font-size:14px;color:var(--fg-soft)}
-.tl-item .tl-tag{display:inline-block;margin-top:12px;font-size:12px;padding:4px 12px;border-radius:99px;
-  background:rgba(240,138,60,.14);color:var(--orange);letter-spacing:.1em}
+/* ───────── ⑤ 梦境大富翁 ───────── */
+.board-wrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:30px;align-items:start}
+#board{position:relative;width:100%;max-width:640px;aspect-ratio:1;margin:0 auto;
+  border-radius:20px;border:2px solid var(--card-line);
+  background:linear-gradient(160deg,rgba(255,255,255,.45),rgba(235,225,248,.38));
+  box-shadow:var(--card-shadow),inset 0 0 70px rgba(255,255,255,.28);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.tile{position:absolute;overflow:hidden;cursor:pointer;border:1.5px solid rgba(255,255,255,.6);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  text-align:center;padding:2px 3px;font-family:inherit;color:var(--ink);
+  transition:transform .3s,box-shadow .3s,background .3s;border-radius:4px}
+.tile.k-event{background:rgba(255,250,240,.78)}
+.tile.k-chance{background:rgba(242,201,214,.62)}
+.tile.k-rest{background:rgba(175,196,230,.55)}
+.tile.k-secret{background:linear-gradient(140deg,#FFE9C9,#F7B7C7)}
+.tile:hover{transform:scale(1.08);box-shadow:0 10px 26px rgba(120,90,160,.35);z-index:3}
+.tile.cur{outline:2.5px solid var(--orange);outline-offset:-2px;z-index:3}
+.tile .t-ico{font-size:clamp(13px,2.5vw,21px);line-height:1.25}
+.tile .t-lab{font-size:clamp(7px,1.12vw,10.5px);font-weight:600;line-height:1.25;letter-spacing:.01em}
+.tile .t-year{font:400 clamp(6px,.9vw,8.5px)/1.4 var(--mono);color:var(--orange)}
+.board-center{position:absolute;inset:17%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;text-align:center;pointer-events:none}
+.board-center .bc-eye{width:clamp(42px,9%,72px);opacity:.85;animation:eyeFloat 5s ease-in-out infinite}
+.board-center .bc-title{font-family:var(--serif);font-weight:900;font-size:clamp(15px,2.8vw,24px);
+  letter-spacing:.14em;color:var(--ink);text-shadow:2px 0 rgba(240,138,60,.3),-2px 0 rgba(130,190,255,.3)}
+.board-center .bc-sub{font:400 clamp(7px,1vw,10px)/1.8 var(--mono);letter-spacing:.3em;color:rgba(43,36,64,.55)}
+#piece{position:absolute;width:9%;height:9%;border-radius:50%;z-index:5;pointer-events:none;
+  background:radial-gradient(circle at 35% 30%,#fff,#F08A3C 75%);
+  box-shadow:0 6px 16px rgba(240,138,60,.55),0 0 0 3px rgba(255,255,255,.75);
+  display:flex;align-items:center;justify-content:center;font-size:clamp(11px,2vw,18px);
+  transition:left .3s cubic-bezier(.4,1.6,.5,1),top .3s cubic-bezier(.4,1.6,.5,1)}
+#piece.sleep{filter:saturate(.5) brightness(.9)}
+#piece.sleep::after{content:"💤";position:absolute;top:-14px;right:-10px;font-size:13px;
+  animation:pcFloat 1.6s ease-in-out infinite}
+.mono-toast{position:absolute;left:50%;top:42%;transform:translateX(-50%);z-index:6;
+  background:rgba(43,36,64,.88);color:#fff;padding:8px 20px;border-radius:99px;font-size:13px;
+  letter-spacing:.06em;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.3);
+  animation:toastPop 2.3s ease forwards}
+@keyframes toastPop{0%{opacity:0;transform:translate(-50%,12px)}12%{opacity:1;transform:translate(-50%,0)}
+  82%{opacity:1}100%{opacity:0;transform:translate(-50%,-16px)}}
+.story-panel{display:flex;flex-direction:column;gap:18px}
+.dice-zone{padding:24px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.die{font-size:58px;line-height:1;color:var(--fg)}
+.die.rolling{animation:dieRoll .65s ease}
+@keyframes dieRoll{25%{transform:rotate(90deg) scale(1.25)}55%{transform:rotate(210deg) scale(1.1)}80%{transform:rotate(330deg)}}
+.dice-info{font:400 12px var(--mono);letter-spacing:.14em;color:var(--fg-soft)}
+.tile-card{padding:20px 24px;min-height:170px}
+.tile-card .tc-kind{font:400 10px var(--mono);letter-spacing:.32em;color:var(--orange)}
+.tile-card h4{font-family:var(--serif);font-size:19px;margin:7px 0 9px}
+.tile-card h4 small{font-size:11px;color:var(--fg-soft);font-family:var(--mono);margin-left:8px}
+.tile-card p{font-size:13.5px;color:var(--fg-soft);line-height:1.95}
+.tc-hint{font-size:13px;color:var(--fg-soft);line-height:2.1;text-align:center;padding-top:34px}
+.board-legend{font-size:11.5px;color:var(--fg-soft);line-height:2;text-align:center;opacity:.85}
 
 /* ───────── ⑥ 扭蛋 ───────── */
 .gacha-zone{display:grid;grid-template-columns:340px 1fr;gap:40px;align-items:start}
@@ -512,6 +553,7 @@ body.scene-night .hero-title,body.scene-latenight .hero-title{color:#F6F0FF}
 /* ───────── 响应式 ───────── */
 @media (max-width:960px){
   .specs-grid,.gacha-zone{grid-template-columns:1fr}
+  .board-wrap{grid-template-columns:1fr}
   .shelf{grid-template-columns:repeat(2,1fr)}
   .feat-grid{grid-template-columns:repeat(2,1fr)}
   .bag-grid{grid-template-columns:repeat(2,1fr)}
