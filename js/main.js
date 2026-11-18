@@ -226,7 +226,7 @@
     });
 
     // 棋子
-    const piece = el("div", null, "🐶"); piece.id = "piece";
+    const piece = el("div", null, "⭐"); piece.id = "piece";
     board.appendChild(piece);
     const centerOf = i => {
       const s = Math.floor(i / 5), k = i % 5;
