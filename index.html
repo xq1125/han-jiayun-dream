@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23F7E3B5'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23F08A3C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=57">
+<link rel="stylesheet" href="css/style.css?v=58">
 <noscript><style>#dream-intro{display:none}.reveal,.stagger>*{opacity:1 !important;transform:none !important;filter:none !important}</style></noscript>
 </head>
 <body>
@@ -207,21 +207,26 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
       </div>
       <div class="gacha-right">
         <div class="gacha-stage" id="gachaStage">
-          <div class="stage-empty" id="stageEmpty">
-            <p>这里将浮现你扭到的那颗蛋</p>
-            <span>（抽出后自动翻到正面 · 点击卡片可以来回翻面）</span>
-          </div>
-          <div class="card3d" id="card3d" hidden>
-            <div class="card3d-inner" id="card3dInner">
-              <div class="card-face card-front" id="cardFront"></div>
-              <div class="card-face card-back"><span>HAN JIAYUN™</span></div>
+          <div class="stage-slot" id="stageCard">
+            <div class="stage-empty" id="stageEmpty">
+              <p>这里将浮现你扭到的那颗蛋</p>
+              <span>（抽出后自动翻到正面 · 点击卡片可以来回翻面）</span>
+            </div>
+            <div class="card3d" id="card3d" hidden>
+              <div class="card3d-inner" id="card3dInner">
+                <div class="card-face card-front" id="cardFront"></div>
+                <div class="card-face card-back"><span>HAN JIAYUN™</span></div>
+              </div>
             </div>
           </div>
-          <div class="fortune-paper" id="fortunePaper" hidden>
-            <div class="fp-head"><span id="fpLevel">大吉</span><em id="fpDate"></em></div>
-            <h4 id="fpTitle"></h4>
-            <p id="fpText"></p>
-            <div class="fp-foot">韩佳韵™ 梦境运势 · 仅供打发地铁时光</div>
+          <div class="stage-slot" id="stageFortune">
+            <p class="slot-hint" id="slotHint">🎋 摇一摇签筒<br>今日签文将出现在这里</p>
+            <div class="fortune-paper" id="fortunePaper" hidden>
+              <div class="fp-head"><span id="fpLevel">大吉</span><em id="fpDate"></em></div>
+              <h4 id="fpTitle"></h4>
+              <p id="fpText"></p>
+              <div class="fp-foot">韩佳韵™ 梦境运势 · 仅供打发地铁时光</div>
+            </div>
           </div>
         </div>
         <div class="gacha-btns">
@@ -237,7 +242,7 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
           <p>今日签</p>
           <span>摇一摇签筒</span>
         </div>
-        <p class="fortune-tip">摇一摇，签文将出现在中间舞台</p>
+        <p class="fortune-tip">摇一摇，签文出现在舞台右侧 · 可与扭蛋卡共存</p>
       </div>
     </div>
     <div class="album-head"><h3>收藏册</h3><span id="albumCount"></span></div>
@@ -284,9 +289,9 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
   </div>
 </div>
 
-<script src="js/sfx.js?v=57"></script>
-<script src="js/data.js?v=57"></script>
-<script src="js/main.js?v=57"></script>
-<script src="js/gacha.js?v=57"></script>
+<script src="js/sfx.js?v=58"></script>
+<script src="js/data.js?v=58"></script>
+<script src="js/main.js?v=58"></script>
+<script src="js/gacha.js?v=58"></script>
 </body>
 </html>

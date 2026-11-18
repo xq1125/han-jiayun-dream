@@ -64,12 +64,12 @@
 
   const stage = $("#gachaStage"), empty = $("#stageEmpty");
   const card3d = $("#card3d"), inner = $("#card3dInner"), front = $("#cardFront");
+  const cardSlot = $("#stageCard"), slotHint = $("#slotHint");
   let flipTimer = null;
 
   function showCard(card, fast) {
     if (window.SFX) { SFX.flip(); if (card.rarity === "SSR") setTimeout(() => SFX.ssr(), 500); }
-    $$(".ten-grid", stage).forEach(n => n.remove());
-    if (paper) paper.hidden = true;
+    $$(".ten-grid", cardSlot).forEach(n => n.remove());
     empty.hidden = true; card3d.hidden = false;
     card3d.classList.remove("flipped");
     front.className = "card-face card-front " + card.rarity;
@@ -132,7 +132,7 @@
     });
     stage.querySelectorAll(".ten-grid").forEach(n => n.remove());
     grid.classList.add("ten-grid");
-    stage.appendChild(grid);
+    cardSlot.appendChild(grid);
   }
 
   $("#machine").addEventListener("click", () => pull(1));
@@ -141,8 +141,7 @@
   $("#btnClear").addEventListener("click", () => {
     if (window.SFX) SFX.click();
     card3d.hidden = true; empty.hidden = false;
-    if (paper) paper.hidden = true;
-    $$(".ten-grid", stage).forEach(n => n.remove());
+    $$(".ten-grid", cardSlot).forEach(n => n.remove());
   });
 
   /* ── 收藏册 ── */
@@ -183,7 +182,7 @@
     collection = []; pity = 0; total = 0;
     localStorage.removeItem(LS_COL); localStorage.removeItem(LS_PITY); localStorage.removeItem(LS_TOTAL);
     card3d.hidden = true; empty.hidden = false;
-    $$(".ten-grid", stage).forEach(n => n.remove());
+    $$(".ten-grid", cardSlot).forEach(n => n.remove());
     renderAlbum();
     if (window.SFX) SFX.drop();
   });
@@ -204,9 +203,8 @@
       $("#fpDate").textContent = new Date().toLocaleDateString("zh-CN") + " · 第 " + (total || 1) + " 次观测";
       $("#fpTitle").textContent = f.title;
       $("#fpText").textContent = f.text;
-      empty.hidden = true; card3d.hidden = true;
-      $$(".ten-grid", stage).forEach(n => n.remove());
       paper.hidden = false;
+      if (slotHint) slotHint.hidden = true;
       paper.style.animation = "none"; void paper.offsetWidth; paper.style.animation = "";
       if (window.SFX) SFX.paper();
       shaking = false;
