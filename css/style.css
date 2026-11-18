@@ -474,42 +474,42 @@ body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,3
 .board-legend{font-size:11.5px;color:var(--fg-soft);line-height:2;text-align:center;opacity:.85}
 
 /* ───────── ⑥ 扭蛋 ───────── */
-.gacha-zone{display:grid;grid-template-columns:340px 1fr;gap:40px;align-items:start}
-.machine{position:relative;cursor:pointer;transition:transform .4s;user-select:none}
+.gacha-zone{display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+.machine{position:relative;cursor:pointer;transition:transform .4s;user-select:none;max-width:250px}
 .machine:hover{transform:translateY(-6px)}
 .machine.shaking{animation:shake .5s ease}
 @keyframes shake{25%{transform:rotate(-3deg)}50%{transform:rotate(2.5deg)}75%{transform:rotate(-1.5deg)}}
-.machine-dome{height:210px;border-radius:160px 160px 26px 26px;position:relative;overflow:hidden;
+.machine-dome{height:140px;border-radius:110px 110px 20px 20px;position:relative;overflow:hidden;
   background:radial-gradient(120% 90% at 50% 10%,rgba(255,255,255,.5),rgba(255,255,255,.12) 60%,rgba(255,255,255,.05));
-  border:3px solid rgba(255,255,255,.65);box-shadow:inset 0 -20px 40px rgba(255,255,255,.25),var(--card-shadow)}
+  border:3px solid rgba(255,255,255,.65);box-shadow:inset 0 -16px 30px rgba(255,255,255,.25),var(--card-shadow)}
 .caps-pool{position:absolute;inset:0}
-.cap{position:absolute;width:44px;height:44px;border-radius:50%;
+.cap{position:absolute;width:32px;height:32px;border-radius:50%;
   background:linear-gradient(180deg,var(--c1) 0 52%,rgba(255,255,255,.92) 52% 100%);
-  box-shadow:inset -4px -6px 10px rgba(0,0,0,.12),0 4px 10px rgba(0,0,0,.15);
+  box-shadow:inset -3px -4px 8px rgba(0,0,0,.12),0 3px 8px rgba(0,0,0,.15);
   animation:capBob 3s ease-in-out infinite}
-@keyframes capBob{50%{transform:translateY(-5px)}}
-.machine-body{height:150px;background:linear-gradient(160deg,#E9C08A,#C98A5A);
-  border-radius:14px;margin-top:-6px;position:relative;border:3px solid rgba(255,250,235,.6);border-top:none}
-.knob{position:absolute;left:50%;top:34px;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,#FFF3D6,#E8B85C);border:4px solid #fff;
+@keyframes capBob{50%{transform:translateY(-4px)}}
+.machine-body{height:100px;background:linear-gradient(160deg,#E9C08A,#C98A5A);
+  border-radius:12px;margin-top:-4px;position:relative;border:3px solid rgba(255,250,235,.6);border-top:none}
+.knob{position:absolute;left:50%;top:22px;transform:translateX(-50%);width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#FFF3D6,#E8B85C);border:3px solid #fff;
   transition:transform .6s cubic-bezier(.2,.8,.25,1)}
-.knob::after{content:"";position:absolute;left:50%;top:6px;transform:translateX(-50%);
-  width:6px;height:16px;border-radius:4px;background:#8A6A2E}
+.knob::after{content:"";position:absolute;left:50%;top:5px;transform:translateX(-50%);
+  width:5px;height:12px;border-radius:4px;background:#8A6A2E}
 .machine.turn .knob{transform:translateX(-50%) rotate(360deg)}
-.machine-mouth{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
-  width:86px;height:34px;border-radius:10px;background:rgba(43,36,64,.55);
-  box-shadow:inset 0 4px 10px rgba(0,0,0,.4)}
-.machine-base{height:26px;border-radius:0 0 18px 18px;background:linear-gradient(#B8905E,#8A6A42);
+.machine-mouth{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);
+  width:64px;height:24px;border-radius:8px;background:rgba(43,36,64,.55);
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.4)}
+.machine-base{height:18px;border-radius:0 0 14px 14px;background:linear-gradient(#B8905E,#8A6A42);
   border:3px solid rgba(255,255,255,.4);border-top:none}
-.coin-hint{text-align:center;margin-top:14px;font-size:12.5px;letter-spacing:.25em;color:var(--fg-soft)}
-.dropping-cap{position:absolute;left:50%;top:40%;transform:translateX(-50%);width:46px;height:46px;
+.coin-hint{text-align:center;margin-top:10px;font-size:11.5px;letter-spacing:.22em;color:var(--fg-soft)}
+.dropping-cap{position:absolute;left:50%;top:30%;transform:translateX(-50%);width:34px;height:34px;
   border-radius:50%;z-index:5;animation:capDrop 1s cubic-bezier(.5,0,.8,1) forwards}
-@keyframes capDrop{to{top:88%;transform:translateX(-50%) scale(.8)}}
+@keyframes capDrop{to{top:78%;transform:translateX(-50%) scale(.8)}}
 
-.gacha-stage{min-height:340px;display:flex;align-items:center;justify-content:center;position:relative;padding:20px}
-.stage-empty{text-align:center;color:var(--fg-soft);font-size:15px;line-height:2.2}
-.stage-empty span{font-size:12px;opacity:.7}
-.card3d{width:250px;height:330px;perspective:1200px}
+.gacha-stage{min-height:240px;display:flex;align-items:center;justify-content:center;position:relative;padding:12px}
+.stage-empty{text-align:center;color:var(--fg-soft);font-size:13.5px;line-height:2.1}
+.stage-empty span{font-size:11.5px;opacity:.7}
+.card3d{width:200px;height:270px;perspective:1200px}
 .card3d-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;
   transition:transform 1s cubic-bezier(.2,.8,.25,1)}
 .card3d.flipped .card3d-inner{transform:rotateY(180deg)}
@@ -532,26 +532,26 @@ body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,3
 .card-front.SR{background:linear-gradient(150deg,#E5E0EE,#DDE4D2,#F0E0CE)}
 .card-front.R{background:linear-gradient(150deg,#E4E8DE,#EFE8D8)}
 .card-front.N{background:linear-gradient(150deg,#EDE8DC,#E2DCCB)}
-.gacha-btns{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 10px}
-.gacha-btns .btn{padding:10px 24px;font-size:14px}
-.pity{font-size:12.5px;color:var(--fg-soft);font-family:var(--mono);letter-spacing:.1em;margin-bottom:18px}
-.album-head{display:flex;justify-content:space-between;align-items:baseline;margin:8px 0 12px}
-.album-head h3{font-family:var(--serif);font-size:18px;letter-spacing:.1em}
-.album-head span{font:400 12px var(--mono);opacity:.7}
-.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:12px}
-.album .slot-card{aspect-ratio:5/7;border-radius:12px;border:1.5px dashed var(--fg-soft);
-  display:flex;align-items:center;justify-content:center;color:var(--fg-soft);font-size:20px;
+.gacha-btns{display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 8px}
+.gacha-btns .btn{padding:9px 20px;font-size:13.5px}
+.pity{font-size:12px;color:var(--fg-soft);font-family:var(--mono);letter-spacing:.1em;margin-bottom:6px}
+.album-head{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0 10px}
+.album-head h3{font-family:var(--serif);font-size:16px;letter-spacing:.1em}
+.album-head span{font:400 11px var(--mono);opacity:.7}
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px}
+.album .slot-card{aspect-ratio:5/7;border-radius:8px;border:1.5px dashed var(--fg-soft);
+  display:flex;align-items:center;justify-content:center;color:var(--fg-soft);font-size:14px;
   background:rgba(255,255,255,.12);transition:.3s}
-.album .got{border:none;position:relative;overflow:hidden;border-radius:12px;cursor:pointer;
-  box-shadow:0 8px 20px rgba(0,0,0,.18);transition:transform .3s}
+.album .got{border:none;position:relative;overflow:hidden;border-radius:8px;cursor:pointer;
+  box-shadow:0 6px 14px rgba(0,0,0,.18);transition:transform .3s}
 .album .got:hover{transform:translateY(-4px) rotate(-2deg)}
 .album .got .mini{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:4px;font-size:26px}
-.album .got .mini b{font:400 9px var(--mono);letter-spacing:.1em}
-.album .got .mini span{font-size:10px;color:var(--ink);padding:0 6px;text-align:center;line-height:1.3}
+  justify-content:center;gap:2px;font-size:18px}
+.album .got .mini b{font:400 8px var(--mono);letter-spacing:.1em}
+.album .got .mini span{font-size:8px;color:var(--ink);padding:0 3px;text-align:center;line-height:1.3}
 
 /* 今日签 */
-.fortune-zone{margin-top:70px;display:flex;gap:34px;align-items:center;flex-wrap:wrap}
+.fortune-zone{margin-top:44px;display:flex;gap:30px;align-items:center;flex-wrap:wrap}
 .fortune-box{width:170px;height:210px;border-radius:16px 16px 90px 90px/16px 16px 40px 40px;
   background:linear-gradient(160deg,#8A5A3B,#6B4226);border:3px solid rgba(255,255,255,.25);
   position:relative;cursor:pointer;display:flex;flex-direction:column;align-items:center;
