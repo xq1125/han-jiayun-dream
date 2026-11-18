@@ -89,6 +89,7 @@ link:{ url:"https://你的网址", label:"打开这个网页 →" },
 
 - 加一个里程碑：把某个 `kind:"chance"` 机会格改成 `kind:"event"`，填上 `year / title / text / ico`；
 - 机会格效果 `effect.type` 可选：`forward`（前进 n 格）、`back`（后退 n 格）、`tbao`（汤包+1）、`talk`、`stall`；
+- 想给词条配一张图：在 `text` 后面加 `img:"assets/img/xxx.png"`（本人视角加在格子上，朋友视角加在 `zky:{…}` 里）；
 - ⚠ 格子总数必须保持 **20**（棋盘按 20 格布局，多了少了都会错位）。
 
 ## 👀 改页脚访客数

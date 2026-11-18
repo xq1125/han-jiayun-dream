@@ -138,7 +138,7 @@ window.DREAM_DATA = {
       zky:{ text:"不是说出来写作业吗，怎么光聊天去了（）" } },
     { kind:"rest",   ico:"🛏", title:"睡眠区", text:"睡眠质量超级好的你决定先睡一轮。Zzz……路过请倒头就睡。", tag:"休息格",
       toastH:"💤 睡眠区：睡眠质量超级好，先睡一轮", toastZ:"🛏 睡眠区：她三秒入睡，我负责盖被子",
-      zky:{ text:"谁不爱睡觉，休息一轮。" } },
+      zky:{ text:"谁不爱睡觉，休息一轮。", img:"assets/img/sleep-friends.png" } },
     { kind:"event",  ico:"🎖", year:"2023.09 - 至今", title:"数字技术部担任副部长", text:"约 10 场活动的前期、现场与长尾物料、拍摄与宣传，保障学院官网与公众号运营。", tag:"组织生活",
       zky:{ text:"当牛做马中。" } },
     { kind:"secret", ico:"🌊", title:"隐藏结局 · 游刃有余完本证", text:"终极成就仍在开发中：把一项技能挖到突出，成为一个做事游刃有余的人。目前进度：薛定谔。", tag:"隐藏格",

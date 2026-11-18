@@ -272,8 +272,10 @@
       tiles.forEach((t, j) => t.classList.toggle("cur", j === i));
       const t = D.board[i];
       const useZ = who === "zky" && t.zky;
+      const entry = useZ ? t.zky : t;
+      const imgHtml = entry.img ? `<img class="tc-img" src="${entry.img}" alt="" loading="lazy" onerror="this.remove()">` : "";
       $("#tileCard").innerHTML =
-        `<p class="tc-kind">${KIND_LABEL[t.kind]}<span class="tc-view">${useZ ? "🌙 朋友视角" : "⭐ 本人视角"}</span></p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${useZ ? t.zky.text : t.text}</p>`;
+        `<p class="tc-kind">${KIND_LABEL[t.kind]}<span class="tc-view">${useZ ? "🌙 朋友视角" : "⭐ 本人视角"}</span></p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${entry.text}</p>${imgHtml}`;
     }
     function toast(msg) {
       const t = el("div", "mono-toast", msg); board.appendChild(t);
