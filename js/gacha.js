@@ -142,11 +142,11 @@
     const album = $("#album"); album.innerHTML = "";
     D.cards.forEach(c => {
       const owned = collection.includes(c.id);
-      const n = document.createElement(owned ? "div" : "div");
+      const n = document.createElement("div");
       if (owned) {
-        n.className = "got";
+        n.className = "got r-" + c.rarity;
         const bg = { N: "#E4E8DE", R: "#E5E0EE", SR: "#F0E0CE", SSR: "#F6E3BE" }[c.rarity];
-        n.innerHTML = `<div class="mini" style="background:${bg}"><span>${c.emoji}</span><b>${c.rarity}</b></div>`;
+        n.innerHTML = `<div class="mini" style="background:${bg}"><i class="m-ico">${c.emoji}</i><b class="m-rar">${c.rarity}</b><span class="m-name">${c.name}</span></div>`;
         n.title = `${c.name} — ${c.text}`;
         n.addEventListener("click", () => { showCard(c, false); $("#machine").scrollIntoView({ behavior: "smooth", block: "center" }); });
       } else {

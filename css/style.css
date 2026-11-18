@@ -540,15 +540,21 @@ body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,3
 .album-head span{font:400 11px var(--mono);opacity:.7}
 .album{display:grid;grid-template-columns:repeat(10,1fr);gap:10px}
 .album .slot-card{aspect-ratio:5/7;border-radius:8px;border:1.5px dashed var(--fg-soft);
-  display:flex;align-items:center;justify-content:center;color:var(--fg-soft);font-size:14px;
-  background:rgba(255,255,255,.12);transition:.3s}
+  display:flex;align-items:center;justify-content:center;color:var(--fg-soft);font-size:26px;
+  font-family:var(--serif);opacity:.75;background:rgba(255,255,255,.12);transition:.3s}
 .album .got{border:none;position:relative;overflow:hidden;border-radius:8px;cursor:pointer;
   box-shadow:0 6px 14px rgba(0,0,0,.18);transition:transform .3s}
 .album .got:hover{transform:translateY(-4px) rotate(-2deg)}
+.album .got.r-SSR{box-shadow:0 0 18px rgba(232,114,44,.6),0 6px 14px rgba(0,0,0,.2)}
+.album .got.r-SR{box-shadow:0 0 12px rgba(227,183,169,.5),0 6px 14px rgba(0,0,0,.18)}
 .album .got .mini{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:3px;font-size:24px}
-.album .got .mini b{font:400 9px var(--mono);letter-spacing:.1em}
-.album .got .mini span{font-size:8px;color:var(--ink);padding:0 3px;text-align:center;line-height:1.3}
+  justify-content:center;gap:5px;padding:6px}
+.album .got .mini .m-ico{font-size:clamp(26px,3.2vw,42px);line-height:1;font-style:normal;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.18))}
+.album .got .mini .m-rar{font:400 10px var(--mono);letter-spacing:.12em;background:rgba(58,52,42,.14);
+  padding:2px 8px;border-radius:3px;color:#3A342A}
+.album .got .mini .m-name{font-size:10.5px;color:#4A3F2E;padding:0 4px;text-align:center;
+  line-height:1.4;font-family:var(--serif)}
 
 /* 今日签：与扭蛋同排的右列 */
 .fortune-col{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
