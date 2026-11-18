@@ -215,7 +215,7 @@
       for (const key in p) d.style[key] = p[key];
       const ph = PHOTOS[i];
       d.innerHTML = `${ph ? `<img class="t-photo" src="assets/img/${ph}.jpg" alt="" loading="lazy" onerror="this.remove()">` : ""}${i === 0 ? '<span class="t-go">GO</span>' : ""}<span class="t-ico">${t.ico}</span>${i !== 0 && t.year ? `<span class="t-year">${t.year}</span>` : ""}<span class="t-lab">${t.title}</span>`;
-      d.addEventListener("click", () => { if (!rolling) { if (window.SFX) SFX.click(); movePieceTo(i); showTile(i); } });
+      d.addEventListener("click", () => { if (!rolling) { if (window.SFX) SFX.click(); showTile(i, turn); } });
       board.appendChild(d); tiles.push(d);
     });
 
@@ -233,57 +233,45 @@
       if (s === 2) return { x: 100 - c, y: 8 };
       return { x: 8, y: c };
     };
-    function place(i) {
-      const c = centerOf(i);
-      piece.style.left = (c.x - 4.5 - 2.6) + "%"; piece.style.top = (c.y - 6.5) + "%";
-      piece2.style.left = (c.x - 4.5 + 2.6) + "%"; piece2.style.top = (c.y - 6.5) + "%";
+    function placeAll() {
+      const c1 = centerOf(posH);
+      piece.style.left = (c1.x - 4.5 - 2.6) + "%"; piece.style.top = (c1.y - 6.5) + "%";
+      const c2 = centerOf(posZ);
+      piece2.style.left = (c2.x - 4.5 + 2.6) + "%"; piece2.style.top = (c2.y - 6.5) + "%";
     }
 
-    // 状态（存档：回合数/汤包/位置）
-    let turns = 0, tbao = 0, posI = 0, rolling = false, skipTurn = false;
+    // 状态：两颗棋子各有位置，轮流掷骰子（⭐ 本人 → 🌙 朋友 → ⭐ …）
+    let turns = 0, tbao = 0, rolling = false, skipTurn = false;
+    let posH = 0, posZ = 0, turn = "hjy";
     try {
       const sv = JSON.parse(localStorage.getItem("h jy mono") || "{}");
-      turns = sv.turns | 0; tbao = sv.tbao | 0; posI = (sv.pos | 0) % N;
+      turns = sv.turns | 0; tbao = sv.tbao | 0;
+      posH = (sv.posH | 0) % N; posZ = (sv.posZ | 0) % N;
+      if (sv.turn === "zky") turn = "zky";
     } catch (e) {}
-    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, pos: posI, pawn: activePawn })); }
-    let view = "hjy";
+    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, posH, posZ, turn })); }
     let lastShown = null;
-    let activePawn = null;
     const chips = { hjy: $("#chipH"), zky: $("#chipZ") };
-    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · ${view === "zky" ? "🌙 朋友视角" : "⭐ 本人视角"}`; }
-    function setView(v) { view = v; info(); if (lastShown !== null) showTile(lastShown); }
-    function setPawn(pawn, atGo) {
-      activePawn = pawn;
-      piece.style.display = pawn === "hjy" ? "" : "none";
-      piece2.style.display = pawn === "zky" ? "" : "none";
-      if (chips.hjy) chips.hjy.classList.toggle("on", pawn === "hjy");
-      if (chips.zky) chips.zky.classList.toggle("on", pawn === "zky");
-      if (atGo) posI = 0;
-      place(posI); setView(pawn); save();
+    function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · ${turn === "zky" ? "🌙 朋友回合" : "⭐ 本人回合"}`; }
+    function setTurn(t) {
+      turn = t;
+      if (chips.hjy) chips.hjy.classList.toggle("on", t === "hjy");
+      if (chips.zky) chips.zky.classList.toggle("on", t === "zky");
+      info();
     }
-    piece.style.display = "none"; piece2.style.display = "none";
-    let svPawn = null;
-    try { svPawn = JSON.parse(localStorage.getItem("h jy mono") || "{}").pawn; } catch (e) {}
-    if (!chips.hjy && !chips.zky) { setPawn(svPawn === "zky" ? "zky" : "hjy", false); } // 兜底：旧版页面没有托盘时自动落子
-    else if (svPawn === "hjy" || svPawn === "zky") setPawn(svPawn, false); else info();
+    setTurn(turn); placeAll();
     Object.keys(chips).forEach(k => {
       const c = chips[k]; if (!c) return;
-      c.addEventListener("click", () => { if (window.SFX) SFX.drop(); setPawn(k, true);
-        toast(k === "hjy" ? "⭐ 本人已就位 · 从 GO 出发" : "🌙 朋友已就位 · 从 GO 出发"); });
-      c.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", k); e.dataTransfer.effectAllowed = "copy"; });
-    });
-    board.addEventListener("dragover", e => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; });
-    board.addEventListener("drop", e => {
-      e.preventDefault();
-      const k = e.dataTransfer.getData("text/plain");
-      if (k === "hjy" || k === "zky") { if (window.SFX) SFX.drop(); setPawn(k, true); toast("棋子已落进棋盘 · 从 GO 出发"); }
+      c.addEventListener("click", () => { if (rolling) return; if (window.SFX) SFX.click();
+        setTurn(k); toast(k === "hjy" ? "⭐ 现在轮到本人" : "🌙 现在轮到朋友"); });
     });
 
-    function showTile(i) {
+    function showTile(i, persp) {
       lastShown = i;
+      const who = persp || turn;
       tiles.forEach((t, j) => t.classList.toggle("cur", j === i));
       const t = D.board[i];
-      const useZ = view === "zky" && t.zky;
+      const useZ = who === "zky" && t.zky;
       $("#tileCard").innerHTML =
         `<p class="tc-kind">${KIND_LABEL[t.kind]}<span class="tc-view">${useZ ? "🌙 朋友视角" : "⭐ 本人视角"}</span></p><h4>${t.ico} ${t.title}${t.year ? `<small>${t.year}</small>` : ""}</h4><p>${useZ ? t.zky.text : t.text}</p>`;
     }
@@ -292,47 +280,49 @@
       setTimeout(() => t.remove(), 2300);
     }
     async function stepTo(target) {
-      while (posI !== target) { posI = (posI + 1) % N; place(posI); if (window.SFX) SFX.step(); await wait(300); }
+      const isH = turn === "hjy";
+      while ((isH ? posH : posZ) !== target) {
+        if (isH) posH = (posH + 1) % N; else posZ = (posZ + 1) % N;
+        placeAll(); if (window.SFX) SFX.step(); await wait(300);
+      }
     }
     async function stepBack(target) {
-      while (posI !== target) { posI = (posI + N - 1) % N; place(posI); if (window.SFX) SFX.step(); await wait(300); }
+      const isH = turn === "hjy";
+      while ((isH ? posH : posZ) !== target) {
+        if (isH) posH = (posH + N - 1) % N; else posZ = (posZ + N - 1) % N;
+        placeAll(); if (window.SFX) SFX.step(); await wait(300);
+      }
     }
     function sleepBoth(ms) {
       piece.classList.add("sleep"); piece2.classList.add("sleep");
       setTimeout(() => { piece.classList.remove("sleep"); piece2.classList.remove("sleep"); }, ms);
     }
-    async function resolve(i, chained) {
+    async function resolve(i, who) {
       const t = D.board[i];
-      const say = fb => toast(view === "zky" && t.toastZ ? t.toastZ : (t.toastH || fb));
+      const z = who === "zky";
+      const say = fb => toast(z && t.toastZ ? t.toastZ : (t.toastH || fb));
       if (!t.effect) {
         if (t.kind === "rest") { sleepBoth(2400); say("💤 " + t.title + "：睡一轮再说"); }
         else if (t.kind === "secret") { say("🌊 " + t.title); }
         return;
       }
       const e = t.effect;
-      if (e.type === "forward") { say("☕ " + t.title + "：前进 " + e.n + " 格"); await wait(900); await stepTo((i + e.n) % N); showTile(posI); }
-      else if (e.type === "back") { say("🎫 " + t.title + "：后退 " + e.n + " 格，无惩罚"); await wait(900); await stepBack((i + N - e.n) % N); showTile(posI); }
+      if (e.type === "forward") { say("☕ " + t.title + "：前进 " + e.n + " 格"); await wait(900); await stepTo((i + e.n) % N); showTile(who === "hjy" ? posH : posZ, who); }
+      else if (e.type === "back") { say("🎫 " + t.title + "：后退 " + e.n + " 格，无惩罚"); await wait(900); await stepBack((i + N - e.n) % N); showTile(who === "hjy" ? posH : posZ, who); }
       else if (e.type === "tbao") { tbao++; say("🥟 汤包 +1！当前 ×" + tbao); }
       else if (e.type === "talk") { say("🗣 已聊两小时，对方已读不回失败"); }
       else if (e.type === "stall") { skipTurn = true; sleepBoth(2000); say("💡 突发奇想：原地发呆一轮…"); }
-      if (!chained) info();
     }
-    function movePieceTo(i) { posI = i; place(i); save(); }
 
     $("#btnRoll").addEventListener("click", async () => {
-      if (rolling) return;
-      if (!activePawn) {
-        toast("先把棋子拖进棋盘 / 点一下棋子");
-        [chips.hjy, chips.zky].forEach(c => { if (c) { c.classList.add("nudge"); setTimeout(() => c.classList.remove("nudge"), 900); } });
-        return;
-      }
-      rolling = true;
+      if (rolling) return; rolling = true;
       if (skipTurn) {
         skipTurn = false; rolling = false;
         toast("😶‍🌫️ 还在发呆，本回合骰子作废——再掷一次");
         return;
       }
       if (window.SFX) SFX.dice();
+      const who = turn;
       const dEl = $("#die"), faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       dEl.classList.add("rolling");
       const spin = setInterval(() => dEl.textContent = faces[Math.floor(Math.random() * 6)], 80);
@@ -340,10 +330,11 @@
       await wait(650); clearInterval(spin);
       dEl.textContent = faces[n - 1]; dEl.classList.remove("rolling");
       turns++;
-      await stepTo((posI + n) % N);
-      showTile(posI);
-      await resolve(posI, false);
-      save(); info();
+      await stepTo(((who === "hjy" ? posH : posZ) + n) % N);
+      showTile(who === "hjy" ? posH : posZ, who);
+      await resolve(who === "hjy" ? posH : posZ, who);
+      save();
+      setTurn(who === "hjy" ? "zky" : "hjy");
       rolling = false;
     });
   }
