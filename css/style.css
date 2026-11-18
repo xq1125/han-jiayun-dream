@@ -556,19 +556,19 @@ body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,3
 .album .got .mini .m-name{font-size:10.5px;color:#4A3F2E;padding:0 4px;text-align:center;
   line-height:1.4;font-family:var(--serif)}
 
-/* 今日签：与扭蛋同排的右列 */
-.fortune-col{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
-.fortune-box{width:150px;height:190px;border-radius:14px 14px 80px 80px/14px 14px 36px 36px;
+/* 今日签：与扭蛋同排的右列（与机器同尺寸、垂直居中） */
+.fortune-col{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;align-self:center}
+.fortune-box{width:100%;max-width:250px;height:285px;border-radius:18px 18px 110px 110px/18px 18px 46px 46px;
   background:linear-gradient(160deg,#8A5A3B,#6B4226);border:3px solid rgba(255,255,255,.25);
   position:relative;cursor:pointer;display:flex;flex-direction:column;align-items:center;
-  justify-content:flex-end;padding-bottom:22px;color:#F7E3B5;box-shadow:var(--card-shadow);
+  justify-content:flex-end;padding-bottom:34px;color:#F7E3B5;box-shadow:var(--card-shadow);
   transition:transform .3s;user-select:none}
 .fortune-box:hover{transform:translateY(-5px)}
 .fortune-box.shaking{animation:shake .45s ease}
-.fortune-box p{font-family:var(--serif);font-size:22px;letter-spacing:.3em;text-indent:.3em}
-.fortune-box span{font-size:10px;opacity:.75;letter-spacing:.2em;margin-top:5px}
-.sticks{position:absolute;top:-22px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
-.sticks i{width:6px;height:56px;border-radius:4px;background:linear-gradient(#F7E3B5,#D9A05B);
+.fortune-box p{font-family:var(--serif);font-size:26px;letter-spacing:.3em;text-indent:.3em}
+.fortune-box span{font-size:11px;opacity:.75;letter-spacing:.2em;margin-top:6px}
+.sticks{position:absolute;top:-26px;left:50%;transform:translateX(-50%);display:flex;gap:7px}
+.sticks i{width:7px;height:64px;border-radius:4px;background:linear-gradient(#F7E3B5,#D9A05B);
   transform-origin:bottom;transition:transform .3s}
 .fortune-box:hover .sticks i:nth-child(odd){transform:rotate(6deg)}
 .fortune-box:hover .sticks i:nth-child(even){transform:rotate(-6deg)}
