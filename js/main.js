@@ -163,7 +163,7 @@
     card.innerHTML = `
       ${w.badge ? `<span class="p-badge">${w.badge}</span>` : ""}
       <div class="p-img"><span class="p-no">NO.${w.no}</span><span class="p-cat">${w.cat}</span>
-        <img src="${w.images[0]}" alt="${w.title}" loading="lazy" onerror="this.parentNode.style.background='linear-gradient(135deg,#EDE4F7,#DCE9F7)';this.remove()"></div>
+        <img src="${w.images[0]}" alt="${w.title}" loading="lazy" onerror="this.parentNode.style.background='#D8CDB6';this.remove()"></div>
       <div class="p-body">
         <h3>${w.title}</h3>
         <p class="p-sub">${w.sub} · ${w.year}</p>
@@ -193,7 +193,7 @@
 
     // 棋盘中心装饰
     const cen = el("div", "board-center");
-    cen.innerHTML = `<svg class="bc-eye" viewBox="0 0 200 120"><path d="M10 60 Q100 -10 190 60 Q100 130 10 60 Z" fill="none" stroke="rgba(43,36,64,.55)" stroke-width="4"/><circle cx="100" cy="58" r="24" fill="#F08A3C"/><circle cx="100" cy="58" r="10" fill="#2B2440"/><circle cx="107" cy="51" r="4" fill="#fff" opacity=".9"/></svg>
+    cen.innerHTML = `<svg class="bc-eye" viewBox="0 0 200 120"><path d="M10 60 Q100 -10 190 60 Q100 130 10 60 Z" fill="none" stroke="rgba(74,63,46,.6)" stroke-width="4"/><circle cx="100" cy="58" r="24" fill="#E8722C"/><circle cx="100" cy="58" r="10" fill="#3A342A"/><circle cx="107" cy="51" r="4" fill="#fff" opacity=".9"/></svg>
       <span class="bc-title">梦境大富翁</span><span class="bc-sub">HAN JIAYUN™ MONOPOLY · 员工人数 1</span>`;
     board.appendChild(cen);
 
@@ -215,12 +215,14 @@
       if (s === 2) return { right: off + "%", top: "0", width: "17%", height: "16%" };
       return { left: "0", top: off + "%", width: "16%", height: "17%" };
     }
+    const PHOTOS = D.tilePhotos || [];
     D.board.forEach((t, i) => {
       const d = el("button", "tile k-" + t.kind + (i === 0 ? " k-go" : ""));
       d.type = "button";
       const p = tilePos(i);
       for (const key in p) d.style[key] = p[key];
-      d.innerHTML = `${i === 0 ? '<span class="t-go">GO</span>' : ""}<span class="t-ico">${t.ico}</span><span class="t-lab">${t.title}</span>${t.year ? `<span class="t-year">${t.year}</span>` : ""}`;
+      const ph = PHOTOS[i];
+      d.innerHTML = `${ph ? `<img class="t-photo" src="assets/img/${ph}.jpg" alt="" loading="lazy" onerror="this.remove()">` : ""}${i === 0 ? '<span class="t-go">GO</span>' : ""}<span class="t-ico">${t.ico}</span>${i !== 0 && t.year ? `<span class="t-year">${t.year}</span>` : ""}<span class="t-lab">${t.title}</span>`;
       d.addEventListener("click", () => { if (!rolling) { if (window.SFX) SFX.click(); movePieceTo(i); showTile(i); } });
       board.appendChild(d); tiles.push(d);
     });
@@ -401,7 +403,7 @@
 
   /* ───────── ⑭ 装饰明信片（素材图，缺图自动隐藏） ───────── */
   const PCS = [
-    { sec: "#hero", img: "assets/img/cloud-corridor.jpg", cap: "DREAM CHANNEL 01", rot: "-3deg", pos: "left:-3%;bottom:12%" },
+    { sec: "#hero", img: "assets/img/road-dusk.jpg", cap: "DREAM CHANNEL 01", rot: "-3deg", pos: "left:-3%;bottom:12%" },
     { sec: "#specs", img: "assets/works/profile.jpg", cap: "FACTORY REPORT", rot: "7deg", pos: "right:-5%;top:30%" },
     { sec: "#specs", img: "assets/img/caffeine-cloud.jpg", cap: "CAFFEINE 40%", rot: "-7deg", pos: "left:-4%;top:6%" },
     { sec: "#manual", img: "assets/img/floating-bed.jpg", cap: "SLEEP MODE ON", rot: "-8deg", pos: "right:-6%;bottom:6%" },

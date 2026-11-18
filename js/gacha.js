@@ -15,9 +15,9 @@
   let total = +localStorage.getItem(LS_TOTAL) || 0;
   let busy = false;
 
-  const RARITY_COLOR = { N: "#AFC4E6", R: "#C9B8E8", SR: "#F2C9D6", SSR: "#F08A3C" };
-  const CAP_COLORS = [["#F2C9D6", "#F7E3B5"], ["#AFC4E6", "#F2C9D6"], ["#C9B8E8", "#AFC4E6"],
-    ["#F7E3B5", "#F08A3C"], ["#F2C9D6", "#C9B8E8"], ["#AFC4E6", "#F7E3B5"]];
+  const RARITY_COLOR = { N: "#9FB0A0", R: "#A9A3C2", SR: "#E3B7A9", SSR: "#E8722C" };
+  const CAP_COLORS = [["#E3B7A9", "#E8C87E"], ["#9FB0A0", "#E3B7A9"], ["#A9A3C2", "#9FB0A0"],
+    ["#E8C87E", "#E8722C"], ["#E3B7A9", "#A9A3C2"], ["#9FB0A0", "#E8C87E"]];
 
   /* ── 蛋池装饰 ── */
   const pool = $("#capsPool");
@@ -82,7 +82,7 @@
     const cap = document.createElement("i");
     const [a, b] = CAP_COLORS[Math.floor(Math.random() * CAP_COLORS.length)];
     cap.className = "dropping-cap";
-    cap.style.background = `linear-gradient(180deg,${card.rarity === "SSR" ? "#F08A3C" : a} 0 52%,#fff 52%)`;
+    cap.style.background = `linear-gradient(180deg,${card.rarity === "SSR" ? "#E8722C" : a} 0 52%,#F6F1E6 52%)`;
     machine.querySelector(".machine-body").appendChild(cap);
     setTimeout(() => cap.remove(), 1000);
     mouth.animate([{ boxShadow: "inset 0 4px 10px rgba(0,0,0,.4)" },
@@ -118,7 +118,7 @@
     results.forEach((c, i) => {
       const mini = document.createElement("div");
       mini.className = "card-front " + c.rarity;
-      mini.style.cssText = "border-radius:12px;padding:10px 6px;font-size:11px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#2B2440;opacity:0;transform:translateY(16px) scale(.9);transition:.5s";
+      mini.style.cssText = "border-radius:4px;padding:10px 6px;font-size:11px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#3A342A;opacity:0;transform:translateY(16px) scale(.9);transition:.5s";
       mini.innerHTML = `<span class="rarity" style="font-size:9px">${c.rarity}</span><span style="font-size:26px">${c.img ? "🎁" : c.emoji}</span><b style="font-family:var(--serif)">${c.name}</b>`;
       grid.appendChild(mini);
       setTimeout(() => { mini.style.opacity = 1; mini.style.transform = "none"; }, 120 * i);
@@ -145,7 +145,7 @@
       const n = document.createElement(owned ? "div" : "div");
       if (owned) {
         n.className = "got";
-        const bg = { N: "#DCEBF9", R: "#E8DEF9", SR: "#F6DCE6", SSR: "#FFE9C9" }[c.rarity];
+        const bg = { N: "#E4E8DE", R: "#E5E0EE", SR: "#F0E0CE", SSR: "#F6E3BE" }[c.rarity];
         n.innerHTML = `<div class="mini" style="background:${bg}"><span>${c.emoji}</span><b>${c.rarity}</b></div>`;
         n.title = `${c.name} — ${c.text}`;
         n.addEventListener("click", () => { showCard(c, false); $("#machine").scrollIntoView({ behavior: "smooth", block: "center" }); });
@@ -172,7 +172,7 @@
       box.classList.remove("shaking");
       const f = D.fortunes[Math.floor(Math.random() * D.fortunes.length)];
       $("#fpLevel").textContent = f.level;
-      $("#fpLevel").style.color = { "大吉": "#C4453A", "中吉": "#F08A3C", "小吉": "#B98A2E", "末吉": "#8A6FA8", "平": "#6B7B8F", "怪签": "#584A8C" }[f.level] || "#2B2440";
+      $("#fpLevel").style.color = { "大吉": "#8A3B2E", "中吉": "#E8722C", "小吉": "#B8905E", "末吉": "#7C8A6E", "平": "#6E6A5E", "怪签": "#4A5A50" }[f.level] || "#3A342A";
       $("#fpDate").textContent = new Date().toLocaleDateString("zh-CN") + " · 第 " + (total || 1) + " 次观测";
       $("#fpTitle").textContent = f.title;
       $("#fpText").textContent = f.text;

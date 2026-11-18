@@ -6,9 +6,9 @@ window.DREAM_DATA = {
 
   /* ── 成分表 ── */
   ingredients: [
-    { label: "咖啡因", pct: 40, color: "linear-gradient(90deg,#F08A3C,#E86A8B)", note: "早晨的第一杯，和凌晨的最后一杯" },
-    { label: "突发奇想", pct: 30, color: "linear-gradient(90deg,#F2C9D6,#C9B8E8)", note: "无固定发作时间，灵感随机掉落" },
-    { label: "待机放空", pct: 30, color: "linear-gradient(90deg,#AFC4E6,#C9B8E8)", note: "屏幕保护程序运行中，请勿拍打" }
+    { label: "咖啡因", pct: 40, color: "linear-gradient(90deg,#E8722C,#C4553A)", note: "早晨的第一杯，和凌晨的最后一杯" },
+    { label: "突发奇想", pct: 30, color: "linear-gradient(90deg,#E3B7A9,#A9A3C2)", note: "无固定发作时间，灵感随机掉落" },
+    { label: "待机放空", pct: 30, color: "linear-gradient(90deg,#9FB0A0,#A9A3C2)", note: "屏幕保护程序运行中，请勿拍打" }
   ],
   flavors: ["土豆", "豆制品", "汤包（除外项）嘻嘻", "R&B", "歌词与旋律", "唱歌", "跳舞", "电视剧", "综艺", "舞台", "新鲜事物", "睡觉"],
 
@@ -88,6 +88,14 @@ window.DREAM_DATA = {
       price:"¥ 一场跨越纤维的对话",
       desc:"以「1988-2021 生物纤维实践」展览为主题的视觉练习：把时间的纤维织进海报里。",
       tags:["展览","海报","练习"], images:["assets/works/w12-1.jpg"] }
+  ],
+
+  /* ── 棋盘每格的实景照片（assets/img/ 下的文件名，想换图改这里） ── */
+  tilePhotos: [
+    "window-vases","forest-edge","curtain-flowers","wall-shadow","dusk-field",
+    "old-house","field-cosmos","river-bouquet","orange-tree","coast-rocks",
+    "field-cosmos","dusk-field","coast-rocks","old-house","forest-edge",
+    "curtain-flowers","wall-shadow","orange-tree","river-bouquet","field-cosmos"
   ],
 
   /* ── 梦境大富翁棋盘（20 格，顺时针：下→右→上→左）· 双视角：默认词条=韩佳韵，zky=朋友视角 ── */
