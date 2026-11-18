@@ -264,7 +264,8 @@
     piece.style.display = "none"; piece2.style.display = "none";
     let svPawn = null;
     try { svPawn = JSON.parse(localStorage.getItem("h jy mono") || "{}").pawn; } catch (e) {}
-    if (svPawn === "hjy" || svPawn === "zky") setPawn(svPawn, false); else info();
+    if (!chips.hjy && !chips.zky) { setPawn(svPawn === "zky" ? "zky" : "hjy", false); } // 兜底：旧版页面没有托盘时自动落子
+    else if (svPawn === "hjy" || svPawn === "zky") setPawn(svPawn, false); else info();
     Object.keys(chips).forEach(k => {
       const c = chips[k]; if (!c) return;
       c.addEventListener("click", () => { if (window.SFX) SFX.drop(); setPawn(k, true);
