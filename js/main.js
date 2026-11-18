@@ -336,6 +336,14 @@
       $("#btnRestart").addEventListener("click", restart);
       info();
     }
+    // 演示钩子：index.html#demo-win-h / #demo-win-z 直接展示终局画面（供截图/预览）
+    if (location.hash === "#demo-win-h" || location.hash === "#demo-win-z") {
+      setTimeout(() => {
+        winGame(location.hash === "#demo-win-h" ? "hjy" : "zky");
+        const tc = $("#tileCard");
+        tc.classList.add("in"); tc.scrollIntoView({ block: "center" });
+      }, 400);
+    }
     function restart() {
       tbaoH = 0; tbaoZ = 0; turns = 0; posH = 0; posZ = 0; gameOver = false; skipTurn = false;
       setTurn("hjy"); placeAll(); save(); info();
