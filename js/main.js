@@ -254,7 +254,7 @@
     function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbaoH, tbaoZ, posH, posZ, turn, over: gameOver })); }
     let lastShown = null;
     const chips = { hjy: $("#chipH"), zky: $("#chipZ") };
-    function info() { $("#diceInfo").textContent = `⭐ 🥟×${tbaoH} · 🌙 🥟×${tbaoZ} · 先得 ${GOAL} 获胜 · 轮到 ${turn === "zky" ? "🌙 朋友" : "⭐ 本人"}`; }
+    function info() { $("#diceInfo").innerHTML = `⭐ 🥟×${tbaoH} · 🌙 🥟×${tbaoZ} · 先得 ${GOAL} 获胜<br><b class="turn-line">${turn === "zky" ? "🌙 轮到朋友" : "⭐ 轮到本人"}</b>`; }
     function setTurn(t) {
       turn = t;
       if (chips.hjy) chips.hjy.classList.toggle("on", t === "hjy");
