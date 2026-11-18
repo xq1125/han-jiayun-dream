@@ -575,9 +575,10 @@ body.scene-night .tile-card,body.scene-latenight .tile-card{background:rgba(42,3
   transform-origin:bottom;transition:transform .3s}
 .fortune-box:hover .sticks i:nth-child(odd){transform:rotate(6deg)}
 .fortune-box:hover .sticks i:nth-child(even){transform:rotate(-6deg)}
-.fortune-paper{width:100%;padding:16px 18px;position:relative;
+.fortune-paper{width:100%;max-width:360px;padding:16px 18px;position:relative;
   background:linear-gradient(170deg,#FFF9EC,#F7EBD2);color:var(--ink);border-radius:8px;
   box-shadow:0 18px 44px rgba(0,0,0,.3);animation:paperOut .9s cubic-bezier(.2,.8,.25,1)}
+.fortune-tip{font-size:11px;color:var(--fg-soft);letter-spacing:.12em;text-align:center;margin-top:2px}
 @keyframes paperOut{from{transform:translateY(40px) rotate(3deg);opacity:0}}
 .fp-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);
   padding-bottom:8px;margin-bottom:10px}

@@ -69,6 +69,7 @@
   function showCard(card, fast) {
     if (window.SFX) { SFX.flip(); if (card.rarity === "SSR") setTimeout(() => SFX.ssr(), 500); }
     $$(".ten-grid", stage).forEach(n => n.remove());
+    if (paper) paper.hidden = true;
     empty.hidden = true; card3d.hidden = false;
     card3d.classList.remove("flipped");
     front.className = "card-face card-front " + card.rarity;
@@ -140,6 +141,7 @@
   $("#btnClear").addEventListener("click", () => {
     if (window.SFX) SFX.click();
     card3d.hidden = true; empty.hidden = false;
+    if (paper) paper.hidden = true;
     $$(".ten-grid", stage).forEach(n => n.remove());
   });
 
@@ -182,6 +184,8 @@
       $("#fpDate").textContent = new Date().toLocaleDateString("zh-CN") + " · 第 " + (total || 1) + " 次观测";
       $("#fpTitle").textContent = f.title;
       $("#fpText").textContent = f.text;
+      empty.hidden = true; card3d.hidden = true;
+      $$(".ten-grid", stage).forEach(n => n.remove());
       paper.hidden = false;
       paper.style.animation = "none"; void paper.offsetWidth; paper.style.animation = "";
       if (window.SFX) SFX.paper();
