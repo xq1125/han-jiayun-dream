@@ -168,6 +168,26 @@
   }
   renderAlbum();
 
+  /* ── 重置收藏（两步确认，防误触） ── */
+  const btnReset = $("#btnReset");
+  let armed = false, armTimer = null;
+  if (btnReset) btnReset.addEventListener("click", () => {
+    if (!armed) {
+      armed = true; btnReset.textContent = "确认?"; btnReset.classList.add("armed");
+      if (window.SFX) SFX.click();
+      armTimer = setTimeout(() => { armed = false; btnReset.textContent = "↺"; btnReset.classList.remove("armed"); }, 3000);
+      return;
+    }
+    clearTimeout(armTimer); armed = false;
+    btnReset.textContent = "↺"; btnReset.classList.remove("armed");
+    collection = []; pity = 0; total = 0;
+    localStorage.removeItem(LS_COL); localStorage.removeItem(LS_PITY); localStorage.removeItem(LS_TOTAL);
+    card3d.hidden = true; empty.hidden = false;
+    $$(".ten-grid", stage).forEach(n => n.remove());
+    renderAlbum();
+    if (window.SFX) SFX.drop();
+  });
+
   /* ── 今日签 ── */
   const box = $("#fortuneBox"), paper = $("#fortunePaper");
   let shaking = false;
