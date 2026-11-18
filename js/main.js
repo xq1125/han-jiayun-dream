@@ -221,8 +221,8 @@
 
     // 双棋子：⭐ 韩佳韵 · 🌙 zky（星月同行，立体兵造型）
     const PAWN = em => `<i class="pd"></i><i class="pb"></i><i class="ph"></i><span class="pe">${em}</span>`;
-    const piece = el("div", null, PAWN("⭐")); piece.id = "piece";
-    const piece2 = el("div", null, PAWN("🌙")); piece2.id = "piece2";
+    const piece = el("div", null, PAWN("⭐")); piece.id = "piece"; piece.classList.add("pawn-hjy");
+    const piece2 = el("div", null, PAWN("🌙")); piece2.id = "piece2"; piece2.classList.add("pawn-zky");
     board.appendChild(piece); board.appendChild(piece2);
     const centerOf = i => {
       const s = Math.floor(i / 5), k = i % 5;
@@ -245,22 +245,38 @@
       const sv = JSON.parse(localStorage.getItem("h jy mono") || "{}");
       turns = sv.turns | 0; tbao = sv.tbao | 0; posI = (sv.pos | 0) % N;
     } catch (e) {}
-    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, pos: posI })); }
-    let view = localStorage.getItem("h jy view") === "1" ? "zky" : "hjy";
+    function save() { localStorage.setItem("h jy mono", JSON.stringify({ turns, tbao, pos: posI, pawn: activePawn })); }
+    let view = "hjy";
     let lastShown = null;
+    let activePawn = null;
+    const chips = { hjy: $("#chipH"), zky: $("#chipZ") };
     function info() { $("#diceInfo").textContent = `回合 ${turns} · 汤包 ×${tbao} · ${view === "zky" ? "🌙 朋友视角" : "⭐ 本人视角"}`; }
-    function setView(v) {
-      view = v; localStorage.setItem("h jy view", v === "zky" ? "1" : "0");
-      const bh = $("#btnViewH"), bz = $("#btnViewZ");
-      if (bh) bh.classList.toggle("on", v === "hjy");
-      if (bz) bz.classList.toggle("on", v === "zky");
-      info(); if (lastShown !== null) showTile(lastShown);
+    function setView(v) { view = v; info(); if (lastShown !== null) showTile(lastShown); }
+    function setPawn(pawn, atGo) {
+      activePawn = pawn;
+      piece.style.display = pawn === "hjy" ? "" : "none";
+      piece2.style.display = pawn === "zky" ? "" : "none";
+      if (chips.hjy) chips.hjy.classList.toggle("on", pawn === "hjy");
+      if (chips.zky) chips.zky.classList.toggle("on", pawn === "zky");
+      if (atGo) posI = 0;
+      place(posI); setView(pawn); save();
     }
-    place(posI); info();
-    const bh = $("#btnViewH"), bz = $("#btnViewZ");
-    if (bh) bh.addEventListener("click", () => { if (window.SFX) SFX.click(); setView("hjy"); });
-    if (bz) bz.addEventListener("click", () => { if (window.SFX) SFX.click(); setView("zky"); });
-    setView(view);
+    piece.style.display = "none"; piece2.style.display = "none";
+    let svPawn = null;
+    try { svPawn = JSON.parse(localStorage.getItem("h jy mono") || "{}").pawn; } catch (e) {}
+    if (svPawn === "hjy" || svPawn === "zky") setPawn(svPawn, false); else info();
+    Object.keys(chips).forEach(k => {
+      const c = chips[k]; if (!c) return;
+      c.addEventListener("click", () => { if (window.SFX) SFX.drop(); setPawn(k, true);
+        toast(k === "hjy" ? "⭐ 本人已就位 · 从 GO 出发" : "🌙 朋友已就位 · 从 GO 出发"); });
+      c.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", k); e.dataTransfer.effectAllowed = "copy"; });
+    });
+    board.addEventListener("dragover", e => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; });
+    board.addEventListener("drop", e => {
+      e.preventDefault();
+      const k = e.dataTransfer.getData("text/plain");
+      if (k === "hjy" || k === "zky") { if (window.SFX) SFX.drop(); setPawn(k, true); toast("棋子已落进棋盘 · 从 GO 出发"); }
+    });
 
     function showTile(i) {
       lastShown = i;
@@ -298,7 +314,13 @@
     function movePieceTo(i) { posI = i; place(i); save(); }
 
     $("#btnRoll").addEventListener("click", async () => {
-      if (rolling) return; rolling = true;
+      if (rolling) return;
+      if (!activePawn) {
+        toast("先把棋子拖进棋盘 / 点一下棋子");
+        [chips.hjy, chips.zky].forEach(c => { if (c) { c.classList.add("nudge"); setTimeout(() => c.classList.remove("nudge"), 900); } });
+        return;
+      }
+      rolling = true;
       if (window.SFX) SFX.dice();
       const dEl = $("#die"), faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       dEl.classList.add("rolling");

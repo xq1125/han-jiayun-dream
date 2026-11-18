@@ -401,22 +401,43 @@ body.scene-night .hero-title,body.scene-latenight .hero-title{color:#F6F0FF}
 .ph{position:absolute;left:50%;top:2%;transform:translateX(-50%);width:40%;height:27%;border-radius:50%}
 .pe{position:absolute;left:50%;bottom:30%;transform:translateX(-50%);font-size:clamp(7px,1.4vw,12px);z-index:2;
   filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
-#piece .ph{background:radial-gradient(circle at 32% 28%,#FFF6D8,#F7C948 55%,#C98A20);
+#piece .ph,#piece .pb,#piece .pd{z-index:1}
+.pawn-hjy .ph{background:radial-gradient(circle at 32% 28%,#FFF6D8,#F7C948 55%,#C98A20);
   box-shadow:inset -2px -3px 5px rgba(140,90,10,.5),inset 2px 2px 4px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.25)}
-#piece .pb{background:linear-gradient(105deg,#FFE9B8,#F7C948 45%,#D99A2B 78%,#B87A1E);
+.pawn-hjy .pb{background:linear-gradient(105deg,#FFE9B8,#F7C948 45%,#D99A2B 78%,#B87A1E);
   filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
-#piece .pd{background:radial-gradient(circle at 40% 35%,#F7DFA0,#D9A94F 70%,#A87B28);
+.pawn-hjy .pd{background:radial-gradient(circle at 40% 35%,#F7DFA0,#D9A94F 70%,#A87B28);
   box-shadow:inset 0 2px 3px rgba(255,255,255,.65),0 3px 6px rgba(0,0,0,.3)}
-#piece2 .ph{background:radial-gradient(circle at 32% 28%,#EDF2E8,#8FA38C 55%,#4A5A50);
+.pawn-zky .ph{background:radial-gradient(circle at 32% 28%,#EDF2E8,#8FA38C 55%,#4A5A50);
   box-shadow:inset -2px -3px 5px rgba(40,60,45,.5),inset 2px 2px 4px rgba(255,255,255,.85),0 2px 5px rgba(0,0,0,.25)}
-#piece2 .pb{background:linear-gradient(105deg,#DCE5D6,#8FA38C 45%,#5A6E58 78%,#3E4F42);
+.pawn-zky .pb{background:linear-gradient(105deg,#DCE5D6,#8FA38C 45%,#5A6E58 78%,#3E4F42);
   filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
-#piece2 .pd{background:radial-gradient(circle at 40% 35%,#CFDCC8,#7C8A6E 70%,#4A5A50);
+.pawn-zky .pd{background:radial-gradient(circle at 40% 35%,#CFDCC8,#7C8A6E 70%,#4A5A50);
   box-shadow:inset 0 2px 3px rgba(255,255,255,.6),0 3px 6px rgba(0,0,0,.3)}
 #piece.sleep,#piece2.sleep{filter:saturate(.45) brightness(.8)}
 #piece.sleep::after,#piece2.sleep::after{content:"💤";position:absolute;top:-16px;right:-8px;font-size:13px;
   animation:pcFloat 1.6s ease-in-out infinite}
 .view-btns,.view-switch{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+/* 棋子托盘 */
+.pawn-tray{display:flex;gap:16px;justify-content:center;margin-top:4px}
+.pawn-chip{width:54px;height:66px;position:relative;cursor:grab;border-radius:10px;
+  background:rgba(255,255,255,.3);border:1.5px dashed rgba(120,95,60,.55);
+  transition:transform .3s,border-color .3s,background .3s,box-shadow .3s;user-select:none}
+.pawn-chip:hover{transform:translateY(-4px);border-color:var(--orange);background:rgba(255,255,255,.6)}
+.pawn-chip:active{cursor:grabbing}
+.pawn-chip.on{border-style:solid;border-color:var(--orange);background:rgba(232,114,44,.16);
+  box-shadow:0 6px 16px rgba(232,114,44,.3)}
+.pawn-chip b{position:absolute;bottom:2px;left:0;right:0;text-align:center;
+  font:400 10px/1.4 var(--serif);color:#4A3F2E;letter-spacing:.1em}
+.pawn-chip .pe{font-size:11px}
+.pawn-chip .ph{top:0}
+.pawn-chip .pb{bottom:22%}
+.pawn-chip .pd{bottom:14%}
+.pawn-chip .pe{bottom:36%}
+.pawn-chip.nudge{animation:chipNudge .8s ease}
+@keyframes chipNudge{20%{transform:translateY(-6px) rotate(-6deg)}45%{transform:translateY(0) rotate(4deg)}
+  70%{transform:translateY(-4px) rotate(-3deg)}100%{transform:none}}
+.tray-hint{font-size:11px;color:var(--fg-soft);letter-spacing:.12em;text-align:center;margin-top:2px}
 .vbtn{border:1.5px solid var(--fg-soft);background:rgba(255,255,255,.25);border-radius:99px;
   padding:7px 16px;font-size:12.5px;color:var(--fg);letter-spacing:.05em;transition:.3s}
 .vbtn:hover{transform:translateY(-2px)}

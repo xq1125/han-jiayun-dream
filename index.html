@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23F7E3B5'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23F08A3C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=14">
+<link rel="stylesheet" href="css/style.css?v=15">
 <noscript><style>#dream-intro{display:none}.reveal,.stagger>*{opacity:1 !important;transform:none !important;filter:none !important}</style></noscript>
 </head>
 <body>
@@ -165,16 +165,21 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
         <div class="dice-zone glass reveal">
           <div class="die" id="die" aria-hidden="true">⚀</div>
           <button class="btn btn-main" id="btnRoll" type="button">掷骰子出发</button>
-          <div class="view-switch" role="group" aria-label="选择视角">
-            <button class="vbtn on" id="btnViewH" type="button">⭐ 本人视角</button>
-            <button class="vbtn" id="btnViewZ" type="button">🌙 朋友视角</button>
+          <div class="pawn-tray" role="group" aria-label="选择棋子">
+            <div class="pawn-chip pawn-hjy" id="chipH" data-pawn="hjy" draggable="true" title="点一下或拖进棋盘：本人视角">
+              <i class="pd"></i><i class="pb"></i><i class="ph"></i><span class="pe">⭐</span><b>本人</b>
+            </div>
+            <div class="pawn-chip pawn-zky" id="chipZ" data-pawn="zky" draggable="true" title="点一下或拖进棋盘：朋友视角">
+              <i class="pd"></i><i class="pb"></i><i class="ph"></i><span class="pe">🌙</span><b>朋友</b>
+            </div>
           </div>
+          <p class="tray-hint">点一下 / 拖进棋盘 → 棋子落在 GO 出发</p>
           <p class="dice-info" id="diceInfo">回合 0 · 汤包 ×0</p>
         </div>
         <div class="tile-card glass reveal" id="tileCard">
           <p class="tc-hint">点击棋盘上的任意格子查看，<br>或掷骰子让「她」自己走 →</p>
         </div>
-        <p class="board-legend reveal">🟧 起点 GO（呼吸发光）· 📅 里程碑 · ☕ 机会 · 🛋 休息 · 🌊 隐藏<br>选择你的棋子：⭐ 本人视角 / 🌙 朋友视角 · 终点即起点，绕回 GO 继续营业</p>
+        <p class="board-legend reveal">🟧 起点 GO（呼吸发光）· 📅 里程碑 · ☕ 机会 · 🛋 休息 · 🌊 隐藏<br>选一颗棋子拖进棋盘：⭐ 本人视角 / 🌙 朋友视角 · 终点即起点，绕回 GO 继续营业</p>
       </aside>
     </div>
   </div>
@@ -278,9 +283,9 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
   </div>
 </div>
 
-<script src="js/sfx.js?v=14"></script>
-<script src="js/data.js?v=14"></script>
-<script src="js/main.js?v=14"></script>
-<script src="js/gacha.js?v=14"></script>
+<script src="js/sfx.js?v=15"></script>
+<script src="js/data.js?v=15"></script>
+<script src="js/main.js?v=15"></script>
+<script src="js/gacha.js?v=15"></script>
 </body>
 </html>
