@@ -240,7 +240,7 @@
     }
 
     // 状态（存档：回合数/汤包/位置）
-    let turns = 0, tbao = 0, posI = 0, rolling = false;
+    let turns = 0, tbao = 0, posI = 0, rolling = false, skipTurn = false;
     try {
       const sv = JSON.parse(localStorage.getItem("h jy mono") || "{}");
       turns = sv.turns | 0; tbao = sv.tbao | 0; posI = (sv.pos | 0) % N;
@@ -314,7 +314,7 @@
       else if (e.type === "back") { say("🎫 " + t.title + "：后退 " + e.n + " 格，无惩罚"); await wait(900); await stepBack((i + N - e.n) % N); showTile(posI); }
       else if (e.type === "tbao") { tbao++; say("🥟 汤包 +1！当前 ×" + tbao); }
       else if (e.type === "talk") { say("🗣 已聊两小时，对方已读不回失败"); }
-      else if (e.type === "stall") { sleepBoth(2000); say("💡 突发奇想：原地思考人生中…"); }
+      else if (e.type === "stall") { skipTurn = true; sleepBoth(2000); say("💡 突发奇想：原地发呆一轮…"); }
       if (!chained) info();
     }
     function movePieceTo(i) { posI = i; place(i); save(); }
@@ -327,6 +327,11 @@
         return;
       }
       rolling = true;
+      if (skipTurn) {
+        skipTurn = false; rolling = false;
+        toast("😶‍🌫️ 还在发呆，本回合骰子作废——再掷一次");
+        return;
+      }
       if (window.SFX) SFX.dice();
       const dEl = $("#die"), faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
       dEl.classList.add("rolling");
