@@ -172,15 +172,7 @@
     card.addEventListener("click", () => openLightbox(i));
     shelf.appendChild(card);
   });
-  // 预留上传位
-  [["📦 新品预告 · 视频位", "把视频丢进 assets/videos/，在 js/data.js 加一条 type:'video'"],
-   ["📦 新品预告 · 图片位", "把图片丢进 assets/works/，在 js/data.js 加一条 works"]]
-    .forEach(([t, s]) => {
-      const slot = el("div", "product slot");
-      slot.innerHTML = `<div class="slot-in"><span class="slot-plus">＋</span><span class="slot-t">${t}</span><span class="slot-s">${s}</span></div>`;
-      slot.addEventListener("click", () => window.open("README-上传指南.md", "_blank"));
-      shelf.appendChild(slot);
-    });
+  // （货架不再放占位卡；上传预留位见「我的包」区块与 README-上传指南.md）
 
   /* ───────── ⑨ 梦境大富翁 ───────── */
   function boardGame() {
