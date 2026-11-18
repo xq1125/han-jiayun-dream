@@ -64,6 +64,7 @@
 
   const stage = $("#gachaStage"), empty = $("#stageEmpty");
   const card3d = $("#card3d"), inner = $("#card3dInner"), front = $("#cardFront");
+  let flipTimer = null;
 
   function showCard(card, fast) {
     if (window.SFX) { SFX.flip(); if (card.rarity === "SSR") setTimeout(() => SFX.ssr(), 500); }
@@ -72,8 +73,13 @@
     card3d.classList.remove("flipped");
     front.className = "card-face card-front " + card.rarity;
     front.innerHTML = cardFaceHTML(card);
-    requestAnimationFrame(() => setTimeout(() => card3d.classList.add("flipped"), fast ? 60 : 260));
+    clearTimeout(flipTimer);
+    flipTimer = setTimeout(() => card3d.classList.add("flipped"), fast ? 140 : 420);
   }
+  card3d.addEventListener("click", () => {
+    card3d.classList.toggle("flipped");
+    if (window.SFX) SFX.flip();
+  });
 
   /* ── 扭蛋动画 ── */
   const machine = $("#machine"), mouth = $("#machineMouth");
