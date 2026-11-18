@@ -225,9 +225,10 @@
       board.appendChild(d); tiles.push(d);
     });
 
-    // 双棋子：⭐ 韩佳韵 · 🌙 zky（星月同行）
-    const piece = el("div", null, "⭐"); piece.id = "piece";
-    const piece2 = el("div", null, "🌙"); piece2.id = "piece2";
+    // 双棋子：⭐ 韩佳韵 · 🌙 zky（星月同行，立体兵造型）
+    const PAWN = em => `<i class="pd"></i><i class="pb"></i><i class="ph"></i><span class="pe">${em}</span>`;
+    const piece = el("div", null, PAWN("⭐")); piece.id = "piece";
+    const piece2 = el("div", null, PAWN("🌙")); piece2.id = "piece2";
     board.appendChild(piece); board.appendChild(piece2);
     const centerOf = i => {
       const s = Math.floor(i / 5), k = i % 5;
@@ -240,8 +241,8 @@
     };
     function place(i) {
       const c = centerOf(i);
-      piece.style.left = (c.x - 4.5 - 2.4) + "%"; piece.style.top = (c.y - 4.5 - 2.4) + "%";
-      piece2.style.left = (c.x - 4.5 + 2.4) + "%"; piece2.style.top = (c.y - 4.5 + 2.4) + "%";
+      piece.style.left = (c.x - 4.5 - 2.6) + "%"; piece.style.top = (c.y - 6.5) + "%";
+      piece2.style.left = (c.x - 4.5 + 2.6) + "%"; piece2.style.top = (c.y - 6.5) + "%";
     }
 
     // 状态（存档：回合数/汤包/位置）
