@@ -1,0 +1,178 @@
+/* ═══════════ 梦境扭蛋机 + 今日签 ═══════════ */
+(function () {
+  "use strict";
+  const D = window.DREAM_DATA;
+  const $ = (s, p) => (p || document).querySelector(s);
+  const $$ = (s, p) => Array.from((p || document).querySelectorAll(s));
+
+  const LS_COL = "h jy collection";
+  const LS_PITY = "h jy pity";
+  const LS_TOTAL = "h jy total";
+
+  let collection = JSON.parse(localStorage.getItem(LS_COL) || "[]");
+  let pity = +localStorage.getItem(LS_PITY) || 0;
+  let total = +localStorage.getItem(LS_TOTAL) || 0;
+  let busy = false;
+
+  const RARITY_COLOR = { N: "#AFC4E6", R: "#C9B8E8", SR: "#F2C9D6", SSR: "#F08A3C" };
+  const CAP_COLORS = [["#F2C9D6", "#F7E3B5"], ["#AFC4E6", "#F2C9D6"], ["#C9B8E8", "#AFC4E6"],
+    ["#F7E3B5", "#F08A3C"], ["#F2C9D6", "#C9B8E8"], ["#AFC4E6", "#F7E3B5"]];
+
+  /* ── 蛋池装饰 ── */
+  const pool = $("#capsPool");
+  for (let i = 0; i < 14; i++) {
+    const c = document.createElement("i");
+    const [a, b] = CAP_COLORS[i % CAP_COLORS.length];
+    c.className = "cap";
+    c.style.cssText = `--c1:${a};left:${6 + (i * 13) % 82}%;top:${30 + (i * 29) % 52}%;animation-delay:${(i * 0.37).toFixed(2)}s;transform:scale(${0.7 + (i % 4) * 0.12})`;
+    pool.appendChild(c);
+  }
+
+  /* ── 抽卡核心 ── */
+  function pickCard() {
+    pity++; total++;
+    let poolSet;
+    if (pity >= D.gachaPity) {           // 保底：必出 SSR
+      poolSet = D.cards.filter(c => c.rarity === "SSR");
+      pity = 0;
+    } else {
+      const r = Math.random(), R = D.gachaRates;
+      let rarity = r < R.SSR ? "SSR" : r < R.SSR + R.SR ? "SR" : r < R.SSR + R.SR + R.R ? "R" : "N";
+      poolSet = D.cards.filter(c => c.rarity === rarity);
+      if (!poolSet.length) poolSet = D.cards.filter(c => c.rarity === "N");
+      if (rarity === "SSR") pity = 0;
+    }
+    const card = poolSet[Math.floor(Math.random() * poolSet.length)];
+    if (!collection.includes(card.id)) collection.push(card.id);
+    save();
+    return card;
+  }
+  function save() {
+    localStorage.setItem(LS_COL, JSON.stringify(collection));
+    localStorage.setItem(LS_PITY, pity);
+    localStorage.setItem(LS_TOTAL, total);
+  }
+
+  /* ── 卡片渲染 ── */
+  function cardFaceHTML(card) {
+    const media = card.img
+      ? `<img class="c-img" src="${card.img}" alt="" onerror="this.remove()">`
+      : `<span class="c-emoji">${card.emoji}</span>`;
+    return `<span class="rarity">${card.rarity}</span>${media}<h4>${card.name}</h4><p>${card.text}</p>`;
+  }
+
+  const stage = $("#gachaStage"), empty = $("#stageEmpty");
+  const card3d = $("#card3d"), inner = $("#card3dInner"), front = $("#cardFront");
+
+  function showCard(card, fast) {
+    $$(".ten-grid", stage).forEach(n => n.remove());
+    empty.hidden = true; card3d.hidden = false;
+    card3d.classList.remove("flipped");
+    front.className = "card-face card-front " + card.rarity;
+    front.innerHTML = cardFaceHTML(card);
+    requestAnimationFrame(() => setTimeout(() => card3d.classList.add("flipped"), fast ? 60 : 260));
+  }
+
+  /* ── 扭蛋动画 ── */
+  const machine = $("#machine"), mouth = $("#machineMouth");
+  function dropCapsule(card) {
+    const cap = document.createElement("i");
+    const [a, b] = CAP_COLORS[Math.floor(Math.random() * CAP_COLORS.length)];
+    cap.className = "dropping-cap";
+    cap.style.background = `linear-gradient(180deg,${card.rarity === "SSR" ? "#F08A3C" : a} 0 52%,#fff 52%)`;
+    machine.querySelector(".machine-body").appendChild(cap);
+    setTimeout(() => cap.remove(), 1000);
+    mouth.animate([{ boxShadow: "inset 0 4px 10px rgba(0,0,0,.4)" },
+      { boxShadow: `inset 0 4px 10px rgba(0,0,0,.4),0 0 26px 6px ${RARITY_COLOR[card.rarity]}` },
+      { boxShadow: "inset 0 4px 10px rgba(0,0,0,.4)" }], { duration: 1200 });
+  }
+
+  async function pull(times) {
+    if (busy) return; busy = true;
+    $("#btnPull").disabled = $("#btnPull10").disabled = true;
+    const results = [];
+    for (let i = 0; i < times; i++) {
+      machine.classList.add("shaking"); machine.classList.add("turn");
+      const card = pickCard();
+      await new Promise(r => setTimeout(r, times === 1 ? 480 : 200));
+      machine.classList.remove("shaking", "turn");
+      dropCapsule(card);
+      results.push(card);
+      if (times === 1) showCard(card, false);
+      await new Promise(r => setTimeout(r, times === 1 ? 900 : 130));
+    }
+    if (times > 1) showTenPull(results);
+    renderAlbum();
+    $("#btnPull").disabled = $("#btnPull10").disabled = false;
+    busy = false;
+  }
+
+  function showTenPull(results) {
+    empty.hidden = true; card3d.hidden = true;
+    const grid = document.createElement("div");
+    grid.style.cssText = "display:grid;grid-template-columns:repeat(5,1fr);gap:10px;width:100%";
+    results.forEach((c, i) => {
+      const mini = document.createElement("div");
+      mini.className = "card-front " + c.rarity;
+      mini.style.cssText = "border-radius:12px;padding:10px 6px;font-size:11px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#2B2440;opacity:0;transform:translateY(16px) scale(.9);transition:.5s";
+      mini.innerHTML = `<span class="rarity" style="font-size:9px">${c.rarity}</span><span style="font-size:26px">${c.img ? "🎁" : c.emoji}</span><b style="font-family:var(--serif)">${c.name}</b>`;
+      grid.appendChild(mini);
+      setTimeout(() => { mini.style.opacity = 1; mini.style.transform = "none"; }, 120 * i);
+    });
+    stage.querySelectorAll(".ten-grid").forEach(n => n.remove());
+    grid.classList.add("ten-grid");
+    stage.appendChild(grid);
+  }
+
+  $("#machine").addEventListener("click", () => pull(1));
+  $("#btnPull").addEventListener("click", () => pull(1));
+  $("#btnPull10").addEventListener("click", () => pull(10));
+  $("#btnClear").addEventListener("click", () => {
+    card3d.hidden = true; empty.hidden = false;
+    $$(".ten-grid", stage).forEach(n => n.remove());
+  });
+
+  /* ── 收藏册 ── */
+  function renderAlbum() {
+    const album = $("#album"); album.innerHTML = "";
+    D.cards.forEach(c => {
+      const owned = collection.includes(c.id);
+      const n = document.createElement(owned ? "div" : "div");
+      if (owned) {
+        n.className = "got";
+        const bg = { N: "#DCEBF9", R: "#E8DEF9", SR: "#F6DCE6", SSR: "#FFE9C9" }[c.rarity];
+        n.innerHTML = `<div class="mini" style="background:${bg}"><span>${c.emoji}</span><b>${c.rarity}</b></div>`;
+        n.title = `${c.name} — ${c.text}`;
+        n.addEventListener("click", () => { showCard(c, false); $("#machine").scrollIntoView({ behavior: "smooth", block: "center" }); });
+      } else {
+        n.className = "slot-card";
+        n.textContent = "?";
+      }
+      album.appendChild(n);
+    });
+    $("#albumCount").textContent = `${collection.length} / ${D.cards.length} · 累计 ${total} 抽`;
+    $("#pityLine").textContent = `距离保底 SSR 还差 ${Math.max(0, D.gachaPity - pity)} 抽 · 已收 ${collection.length} 张卡`;
+  }
+  renderAlbum();
+
+  /* ── 今日签 ── */
+  const box = $("#fortuneBox"), paper = $("#fortunePaper");
+  let shaking = false;
+  box.addEventListener("click", () => {
+    if (shaking) return; shaking = true;
+    box.classList.add("shaking");
+    paper.hidden = true;
+    setTimeout(() => {
+      box.classList.remove("shaking");
+      const f = D.fortunes[Math.floor(Math.random() * D.fortunes.length)];
+      $("#fpLevel").textContent = f.level;
+      $("#fpLevel").style.color = { "大吉": "#C4453A", "中吉": "#F08A3C", "小吉": "#B98A2E", "末吉": "#8A6FA8", "平": "#6B7B8F", "怪签": "#584A8C" }[f.level] || "#2B2440";
+      $("#fpDate").textContent = new Date().toLocaleDateString("zh-CN") + " · 第 " + (total || 1) + " 次观测";
+      $("#fpTitle").textContent = f.title;
+      $("#fpText").textContent = f.text;
+      paper.hidden = false;
+      paper.style.animation = "none"; void paper.offsetWidth; paper.style.animation = "";
+      shaking = false;
+    }, 700);
+  });
+})();
