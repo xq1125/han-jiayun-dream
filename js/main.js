@@ -390,6 +390,22 @@
       setTurn(who === "hjy" ? "zky" : "hjy");
       rolling = false;
     });
+
+    // 棋局重置（两步确认，与扭蛋重置同款样式）
+    const btnMonoReset = $("#btnMonoReset");
+    let mArmed = false, mTimer = null;
+    if (btnMonoReset) btnMonoReset.addEventListener("click", () => {
+      if (!mArmed) {
+        mArmed = true; btnMonoReset.textContent = "确认?"; btnMonoReset.classList.add("armed");
+        if (window.SFX) SFX.click();
+        mTimer = setTimeout(() => { mArmed = false; btnMonoReset.textContent = "↺"; btnMonoReset.classList.remove("armed"); }, 3000);
+        return;
+      }
+      clearTimeout(mTimer); mArmed = false;
+      btnMonoReset.textContent = "↺"; btnMonoReset.classList.remove("armed");
+      restart();
+      toast("棋局已重置 · 双子回到 GO");
+    });
   }
   try { boardGame(); } catch (e) { console.error("board:", e); }
 
