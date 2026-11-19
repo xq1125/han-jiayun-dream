@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23F7E3B5'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23F08A3C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=63">
+<link rel="stylesheet" href="css/style.css?v=64">
 <noscript><style>#dream-intro{display:none}.reveal,.stagger>*{opacity:1 !important;transform:none !important;filter:none !important}</style></noscript>
 </head>
 <body>
@@ -54,6 +54,27 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
     <a href="#story">大事记</a><a href="#gacha">扭蛋</a><a href="#bag">我的包</a><a href="#contact">售后</a>
   </div>
 </nav>
+<button class="menu-btn" id="menuBtn" type="button" aria-label="目录" aria-expanded="false">☰</button>
+
+<!-- ══════════ 目录抽屉 ══════════ -->
+<div id="drawerBack" class="drawer-back"></div>
+<aside id="drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">梦境目录</span>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="关闭目录">×</button>
+  </div>
+  <nav class="drawer-links" aria-label="目录导航">
+    <a href="#hero"><i class="num">01</i>新品揭幕</a>
+    <a href="#specs"><i class="num">02</i>产品参数</a>
+    <a href="#manual"><i class="num">03</i>使用说明书</a>
+    <a href="#shop"><i class="num">04</i>作品货架</a>
+    <a href="#story"><i class="num">05</i>梦境大富翁</a>
+    <a href="#gacha"><i class="num">06</i>扭蛋 · 今日签</a>
+    <a href="#bag"><i class="num">07</i>我的包里有什么</a>
+    <a href="#contact"><i class="num">08</i>售后服务台</a>
+  </nav>
+  <p class="drawer-foot">HAN JIAYUN™ DREAM LIMITED<br><small>仅供娱乐及打发地铁时光</small></p>
+</aside>
 
 <!-- ══════════ ① 新品揭幕 ══════════ -->
 <header id="hero" class="scene" data-scene="dawn">
@@ -288,9 +309,9 @@ setTimeout(function(){if(window.__dreamOK)return;var rs=document.querySelectorAl
   </div>
 </div>
 
-<script src="js/sfx.js?v=63"></script>
-<script src="js/data.js?v=63"></script>
-<script src="js/main.js?v=63"></script>
-<script src="js/gacha.js?v=63"></script>
+<script src="js/sfx.js?v=64"></script>
+<script src="js/data.js?v=64"></script>
+<script src="js/main.js?v=64"></script>
+<script src="js/gacha.js?v=64"></script>
 </body>
 </html>

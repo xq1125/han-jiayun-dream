@@ -90,6 +90,22 @@
   const nav = $("#nav");
   addEventListener("scroll", () => nav.classList.toggle("show", scrollY > innerHeight * 0.5), { passive: true });
 
+  /* ───────── ⑤b 目录抽屉 ───────── */
+  (function drawer() {
+    const btn = $("#menuBtn"), dr = $("#drawer"), back = $("#drawerBack"), close = $("#drawerClose");
+    if (!btn || !dr) return;
+    const open = () => { dr.classList.add("open"); back.classList.add("show");
+      btn.setAttribute("aria-expanded", "true"); dr.setAttribute("aria-hidden", "false");
+      if (window.SFX) SFX.click(); };
+    const shut = () => { dr.classList.remove("open"); back.classList.remove("show");
+      btn.setAttribute("aria-expanded", "false"); dr.setAttribute("aria-hidden", "true"); };
+    btn.addEventListener("click", () => dr.classList.contains("open") ? shut() : open());
+    if (close) close.addEventListener("click", shut);
+    if (back) back.addEventListener("click", shut);
+    $$(".drawer-links a", dr).forEach(a => a.addEventListener("click", () => { if (window.SFX) SFX.click(); shut(); }));
+    addEventListener("keydown", e => { if (e.key === "Escape") shut(); });
+  })();
+
   /* ───────── ⑥ HERO 标题逐字入场 ───────── */
   (function heroTitle() {
     const h = $("#heroTitle"); if (!h) return;
