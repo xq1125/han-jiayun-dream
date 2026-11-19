@@ -407,9 +407,9 @@
   cc.innerHTML = `
     <div><b>📮 邮箱</b><br>${D.contact.email}</div>
     <div><b>💬 微信</b><br>${D.contact.wechat}</div>
-    <div><b>🧭 求职意向</b><br>${D.contact.intent}</div>
     <div><b>📍 坐标</b><br>${D.contact.city}</div>
-    <div class="cc-full"><b>🔢 ${D.contact.phone}</b><br>${D.contact.note}</div>`;
+    <div><b>🔢 ${D.contact.phone}</b></div>
+    <div class="cc-full">${D.contact.note}</div>`;
 
   /* ───────── ⑫ 访客计数器（固定数字，见 data.visitors） ───────── */
   const vs = D.visitors || { total: "1113", sleeping: "0502" };

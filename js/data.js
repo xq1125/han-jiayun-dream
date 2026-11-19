@@ -214,7 +214,6 @@ window.DREAM_DATA = {
   contact: {
     email: "1860711135@163.com",
     wechat: "wendyyione",
-    intent: "平面设计实习生",
     city: "现居湖北武汉 · 即将迁往上海（东华大学）",
     phone: "出厂序列号（电话）：等她睡醒后可申请",
     note: "商务合作 / 作品交流 / 汤包情报，均欢迎投递。客服响应速度取决于她是否睡醒。"
